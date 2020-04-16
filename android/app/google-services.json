@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "550631012564",
+    "firebase_url": "https://jawa-bb4fd.firebaseio.com",
+    "project_id": "jawa-bb4fd",
+    "storage_bucket": "jawa-bb4fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550631012564:android:4a319430f6fcd08a206341",
+        "android_client_info": {
+          "package_name": "com.juliandev.jawaaplicacion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550631012564-egj5rssonq92traf458lh09bidtff5c7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.juliandev.jawaaplicacion",
+            "certificate_hash": "ea677fb253ef3889d022a036e4e04fb518973a6d"
+          }
+        },
+        {
+          "client_id": "550631012564-s5sj601dv7ftv74fguoj43fesijgbnq0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY621v4ZukS9jh_7WPH67fkkU1c23ZENI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550631012564-s5sj601dv7ftv74fguoj43fesijgbnq0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
