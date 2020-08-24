@@ -7,27 +7,25 @@ class CustomAppBarComp extends StatelessWidget {
     return SafeArea(
       child: Container(
         width: double.infinity,
-        height: 70,
+        height: 60,
         decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                blurRadius: 40.0, // has the effect of softening the shadow
-                spreadRadius: 1.0, // has the effect of extending the shadow
-                offset: Offset(
-                  0, // horizontal, move right 10
-                  3.0, // vertical, move down 10
-                ),
-              )
-            ],
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
-            image: DecorationImage(
-              image: AssetImage('assets/images/back.png'),
-              fit: BoxFit.cover,
-            )),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black38,
+              blurRadius: 40.0, // has the effect of softening the shadow
+              spreadRadius: 1.0, // has the effect of extending the shadow
+              offset: Offset(
+                0, // horizontal, move right 10
+                3.0, // vertical, move down 10
+              ),
+            )
+          ],
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30.0),
+            bottomRight: Radius.circular(30.0),
+          ),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,13 +33,18 @@ class CustomAppBarComp extends StatelessWidget {
             IconButton(
                 icon: Icon(
                   CupertinoIcons.left_chevron,
-                  color: Colors.white,
-                  size: 40.0,
+                  size: 30.0,
                 ),
                 onPressed: () => Navigator.pop(context)),
-            Image(image: AssetImage('assets/images/logo.png')),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                'assets/images/logo.png',
+                scale: 2.5,
+              ),
+            ),
             SizedBox(
-              width: 50.0,
+              width: 30.0,
             )
           ],
         ),

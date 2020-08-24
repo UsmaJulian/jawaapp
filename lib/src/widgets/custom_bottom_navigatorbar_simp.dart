@@ -13,7 +13,7 @@ class _CustomBottomNavigatorBarCompState
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 80,
+      height: 77,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -29,48 +29,64 @@ class _CustomBottomNavigatorBarCompState
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(35),
-          topLeft: Radius.circular(35),
+          topRight: Radius.circular(25),
+          topLeft: Radius.circular(25),
         ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-                icon: IconButton(
-                  icon: Icon(
-                    CupertinoIcons.profile_circled,
-                    size: 45,
-                    color: Colors.orange,
+        child: Container(
+          padding: EdgeInsets.zero,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.zero,
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: IconButton(
+                          icon: Icon(
+                            CupertinoIcons.profile_circled,
+                            size: 30,
+                            color: Colors.orange,
+                          ),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, 'profile'),
+                          // Navigator.pushNamed(context, 'selection'),
+                        ),
+                        title: Text(
+                          'Perfil',
+                          style: TextStyle(
+                              color: Colors.orange,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      BottomNavigationBarItem(
+                          icon: IconButton(
+                            icon: Icon(
+                              CupertinoIcons.book_solid,
+                              size: 30,
+                              color: Colors.orange,
+                            ),
+                            onPressed: () =>
+                                Navigator.pushNamed(context, 'collection'),
+                          ),
+                          title: Text(
+                            'Biblioteca',
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ],
                   ),
-                  onPressed: () => Navigator.pushNamed(context, 'profile'),
-                  // Navigator.pushNamed(context, 'selection'),
                 ),
-                title: Text(
-                  'Perfil',
-                  style: TextStyle(
-                      color: Colors.orange,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                )),
-            BottomNavigationBarItem(
-                icon: IconButton(
-                  icon: Icon(
-                    CupertinoIcons.gear,
-                    size: 45,
-                    color: Colors.orange,
-                  ),
-                  onPressed: () => Navigator.pushNamed(context, 'preferences'),
-                ),
-                title: Text(
-                  'Preferencias',
-                  style: TextStyle(
-                      color: Colors.orange,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                )),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:jawaaplicacion/src/providers/firebase_auth_provider.dart';
 
 class AuthWidget extends StatelessWidget {
   const AuthWidget({Key key, @required this.userSnapshot}) : super(key: key);
-  final AsyncSnapshot<User> userSnapshot;
+  final AsyncSnapshot<UserAuth> userSnapshot;
 
   @override
   Widget build(BuildContext context) {

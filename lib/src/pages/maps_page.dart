@@ -21,10 +21,10 @@ class MapsPageState extends State<MapsPage> {
   }
 
   populateClients() {
-    Firestore.instance.collection('ingresos').getDocuments().then((docs) {
-      if (docs.documents.isNotEmpty) {
-        for (int i = 0; i < docs.documents.length; ++i) {
-          initMarker(docs.documents[i].data, docs.documents[i].documentID);
+    FirebaseFirestore.instance.collection('ingresos').get().then((docs) {
+      if (docs.docs.isNotEmpty) {
+        for (int i = 0; i < docs.docs.length; ++i) {
+          initMarker(docs.docs[i].data(), docs.docs[i].id);
         }
       }
     });
@@ -42,7 +42,7 @@ class MapsPageState extends State<MapsPage> {
       position: LatLng(
           request['localizacion'].latitude, request['localizacion'].longitude),
       infoWindow: InfoWindow(
-          title: request['titulo'],
+          title: request['ubicacion'],
           snippet: request['creador/autor'],
           onTap: () {}),
     );
@@ -63,12 +63,12 @@ class MapsPageState extends State<MapsPage> {
 
   MapType _defaultMapType = MapType.normal;
 
-  void _changeMapType() {
-    setState(() {
-      _defaultMapType =
-          _defaultMapType == MapType.normal ? MapType.hybrid : MapType.normal;
-    });
-  }
+  // void _changeMapType() {
+  //   setState(() {
+  //     _defaultMapType =
+  //         _defaultMapType == MapType.normal ? MapType.hybrid : MapType.normal;
+  //   });
+  // }
 
   void _onAddMarkerButtonPressed() {
     setState(() {
@@ -105,7 +105,6 @@ class MapsPageState extends State<MapsPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     getCurrentPosition();
 
     //placemarkFromAddress();
@@ -114,7 +113,7 @@ class MapsPageState extends State<MapsPage> {
       body: Stack(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(top: 95, bottom: 90),
+            padding: EdgeInsets.only(top: 25, bottom: 55),
             child: GoogleMap(
               markers: Set<Marker>.of(markers.values),
               onCameraMove: _onCameraMove,
@@ -129,27 +128,25 @@ class MapsPageState extends State<MapsPage> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 168),
-                    child: FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () {
-                        _changeMapType();
-                        // print('Cambiar tipo de mapa');
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.padded,
-                      backgroundColor: Colors.orange,
-                      child: const Icon(CupertinoIcons.refresh, size: 45.0),
-                    ),
-                  ),
-                ],
-              ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Column(
+              children: <Widget>[
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 168),
+                //   child: FloatingActionButton(
+
+                //     heroTag: null,
+                //     onPressed: () {
+                //       _changeMapType();
+                //       // print('Cambiar tipo de mapa');
+                //     },
+                //     materialTapTargetSize: MaterialTapTargetSize.padded,
+                //     backgroundColor: Colors.orange,
+                //     child: const Icon(CupertinoIcons.refresh, size: 45.0),
+                //   ),
+                // ),
+              ],
             ),
           ),
           Positioned(bottom: 0, child: CustomBottomNavigatorBarComp()),
@@ -158,15 +155,15 @@ class MapsPageState extends State<MapsPage> {
             left: 50,
             right: 50,
             child: Container(
-              width: 75,
-              height: 75,
+              width: 0,
+              height: 50,
               child: FloatingActionButton(
-                elevation: 6,
+                elevation: 2,
                 heroTag: null,
                 onPressed: _onAddMarkerButtonPressed,
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 backgroundColor: Colors.orange,
-                child: const Icon(CupertinoIcons.location, size: 50.0),
+                child: const Icon(CupertinoIcons.add, size: 40.0),
               ),
             ),
           ),
@@ -177,12 +174,13 @@ class MapsPageState extends State<MapsPage> {
   }
 
   _buildListViewItems() {
+    Query query = FirebaseFirestore.instance.collection('ingresos');
     return Container(
-      margin: EdgeInsets.only(bottom: 160),
+      margin: EdgeInsets.only(bottom: 165),
       alignment: Alignment.bottomCenter,
       child: StreamBuilder(
-        stream: Firestore.instance.collection('ingresos').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
+        stream: query.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           final data = snapshot.data;
           if (snapshot.hasError) return Text(snapshot.error);
           switch (snapshot.connectionState) {
@@ -205,16 +203,16 @@ class MapsPageState extends State<MapsPage> {
     );
   }
 
-  _buildLisTileItems(BuildContext context, data) {
+  _buildLisTileItems(BuildContext context, QuerySnapshot data) {
     return Container(
       height: 100,
       width: double.infinity,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: data.documents.length,
+          itemCount: data.docs.length,
           itemBuilder: (BuildContext context, int index) {
-            final lat = data.documents[index]['localizacion'].latitude;
-            final long = data.documents[index]['localizacion'].longitude;
+            final lat = data.docs[index].data()['localizacion'].latitude;
+            final long = data.docs[index].data()['localizacion'].longitude;
             return Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: GestureDetector(
@@ -222,21 +220,19 @@ class MapsPageState extends State<MapsPage> {
                   _gotoLocation(lat, long);
                 },
                 onDoubleTap: () {
-                  final dataL = data.documents[index];
+                  final dataL = data.docs[index];
                   Navigator.pushNamed(context, 'content', arguments: dataL);
                 },
                 child: Container(
                   child: FittedBox(
                     child: Material(
                       color: Colors.white,
-                      elevation: 14.0,
+                      elevation: 0.5,
                       borderRadius: BorderRadius.circular(24.0),
-                      shadowColor: Color(0x802196F3),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(color: Colors.white),
                             width: 80,
                             height: 80,
@@ -244,21 +240,25 @@ class MapsPageState extends State<MapsPage> {
                               borderRadius: new BorderRadius.circular(24.0),
                               child: Image(
                                 fit: BoxFit.fill,
-                                image: NetworkImage(
-                                    data.documents[index]['imagen destacada']),
+                                image: NetworkImage(data.docs[index]
+                                    .data()['imagen destacada']),
                               ),
                             ),
                           ),
                           Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                child: Text(
-                                    data.documents[index]['creador/autor']),
+                                padding: EdgeInsets.only(right: 20),
+                                child: Text(data.docs[index].data()['tecnica'],
+                                    style: TextStyle(color: Colors.orange),
+                                    textAlign: TextAlign.left),
                               ),
                               Container(
-                                margin: EdgeInsets.all(6.0),
+                                padding: EdgeInsets.only(right: 20),
                                 child: Text(
-                                  data.documents[index]['tematica'],
+                                  data.docs[index].data()['creador/autor'],
+                                  textAlign: TextAlign.left,
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ),

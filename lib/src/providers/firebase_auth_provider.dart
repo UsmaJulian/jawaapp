@@ -1,25 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class User {
-  const User({@required this.uid});
+class UserAuth {
+  const UserAuth({@required this.uid});
   final String uid;
 }
 
 class FirebaseAuthService {
   final _firebaseAuth = FirebaseAuth.instance;
 
-  User _userFromFirebase(FirebaseUser user) {
-    return user == null ? null : User(uid: user.uid);
+  UserAuth _userFromFirebase(User user) {
+    return user == null ? null : UserAuth(uid: user.uid);
   }
 
-  Stream<User> get onAuthStateChanged {
-    return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
+  Stream<UserAuth> get onAuthStateChanged {
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
-  Future<User> signInAnonymously() async {
+  Future<UserAuth> signInAnonymously() async {
     final authResult = await _firebaseAuth.signInAnonymously();
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(authResult.user.uid)
+        .set({
+      'photoURL': 'https://via.placeholder.com/150',
+      'uid': authResult.user.uid
+    });
     return _userFromFirebase(authResult.user);
   }
 

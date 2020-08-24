@@ -47,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Container(
         child: Stack(
           children: <Widget>[
-            backGround(),
+            // backGround(),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -66,7 +66,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Widget logoJawa() {
-    return Image(image: AssetImage('assets/images/logo.png'));
+    return Image(
+      image: AssetImage('assets/images/logo.png'),
+      width: 90,
+      height: 90,
+    );
   }
 
   Widget textoEsperar() {

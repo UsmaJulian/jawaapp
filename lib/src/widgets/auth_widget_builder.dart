@@ -6,19 +6,19 @@ import 'package:provider/provider.dart';
 
 class AuthWidgetBuilder extends StatelessWidget {
   const AuthWidgetBuilder({Key key, @required this.builder}) : super(key: key);
-  final Widget Function(BuildContext, AsyncSnapshot<User>) builder;
+  final Widget Function(BuildContext, AsyncSnapshot<UserAuth>) builder;
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<FirebaseAuthService>(context, listen: true);
-    return StreamBuilder<User>(
+    return StreamBuilder<UserAuth>(
       stream: authService.onAuthStateChanged,
       builder: (context, snapshot) {
-        final User user = snapshot.data;
+        final UserAuth user = snapshot.data;
         if (user != null) {
           return MultiProvider(
             providers: [
-              Provider<User>.value(value: user),
+              Provider<UserAuth>.value(value: user),
               Provider<FirestoreService>(
                 create: (_) => FirestoreService(uid: user.uid),
               ),

@@ -17,10 +17,10 @@ void showAlert(BuildContext context, String mensaje) {
       });
 }
 
+// ignore: missing_return
 bool urlIsEmpty(String url) {
-  if(url==null){
-  	print('vacio');
-  	return false;
+  if (url == null) {
+    print('vacio');
+    return false;
   }
-  
 }

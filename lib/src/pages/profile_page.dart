@@ -1,14 +1,15 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jawaaplicacion/src/models/avatar_model.dart';
-import 'package:jawaaplicacion/src/providers/firebase_storage_provider.dart';
-import 'package:jawaaplicacion/src/providers/firestore_provider.dart';
-import 'package:jawaaplicacion/src/providers/image_picker_provider.dart';
-import 'package:jawaaplicacion/src/widgets/avatar_widget.dart';
+
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.uid});
@@ -20,27 +21,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Future<void> _chooseAvatar(BuildContext context) async {
-    try {
-      // 1. Get image from picker
-      final imagePicker =
-          Provider.of<ImagePickerService>(context, listen: false);
-      final file = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (file != null) {
-        // 2. Upload to storage
-        final storage = Provider.of<FirebaseStorageService>(context);
-        final downloadUrl = await storage.uploadAvatar(file: file);
-        // 3. Save url to Firestore
-        final database = Provider.of<FirestoreService>(context);
-        await database.setAvatarReference(AvatarReference(downloadUrl));
-        // 4. (optional) delete local file as no longer needed
-        await file.delete();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -74,17 +54,61 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserInfo(BuildContext context) {
-    final database = Provider.of<FirestoreService>(context);
-    return StreamBuilder<AvatarReference>(
-      stream: database.avatarReferenceStream(),
-      builder: (context, snapshot) {
-        final avatarReference = snapshot.data;
-        return Avatar(
-          photoUrl: avatarReference?.downloadUrl,
-          radius: 60,
-          borderColor: Colors.black54,
-          borderWidth: 2.0,
-          onPressed: () => _chooseAvatar(context),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: widget.uid)
+          .snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        return Container(
+          width: 150,
+          height: 150,
+          child: GestureDetector(
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: ClipOval(
+                child: FadeInImage.assetNetwork(
+                    fit: BoxFit.cover,
+                    placeholder: "assets/images/no-image.png",
+                    image: "${snapshot.data.docs[0].data()['photoURL']}"),
+              ),
+            ),
+            onTap: () async {
+              File _avatarImage;
+              final picker = ImagePicker();
+              final pickedFileAvatar =
+                  await picker.getImage(source: ImageSource.gallery);
+              setState(() {
+                _avatarImage = File(pickedFileAvatar.path);
+              });
+              if (_avatarImage != null) {
+                var imageAvatar = Uuid().v1();
+                var imageAvatarPath =
+                    '/user/avatar/${widget.uid}/$imageAvatar.jpg';
+                final StorageReference storageReference =
+                    FirebaseStorage().ref().child(imageAvatarPath);
+                final StorageUploadTask uploadTask =
+                    storageReference.putFile(_avatarImage);
+                final StreamSubscription<StorageTaskEvent> streamSubscription =
+                    uploadTask.events.listen((event) {
+                  print('EVENT ${event.type}');
+                });
+                await uploadTask.onComplete;
+                streamSubscription.cancel();
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.uid)
+                    .update(
+                  {
+                    "photoURL":
+                        (await storageReference.getDownloadURL()).toString()
+                  },
+                );
+              } else {
+                print('error');
+              }
+            },
+          ),
         );
       },
     );
@@ -96,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       height: size.height * 0.7,
       child: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
+        stream: FirebaseFirestore.instance
             .collection('ingresos')
             // .where('uid', isEqualTo: widget.uid)
             .snapshots(),
@@ -110,9 +134,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
             default:
               return new ListView.builder(
-                itemCount: snapshot.data.documents.length,
+                itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final data = snapshot.data.documents[index];
+                  final data = snapshot.data.docs[index].data();
                   return Column(
                     children: <Widget>[
                       ListTile(

@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 class ImagePickerService {
   // Returns a [File] object pointing to the image that was picked.
   Future<File> pickImage({@required ImageSource source}) async {
-    return ImagePicker.pickImage(source: source);
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: source);
+    return File(pickedFile.path);
   }
 }

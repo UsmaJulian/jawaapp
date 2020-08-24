@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jawaaplicacion/src/utils/soporte_sel.dart';
 import 'package:jawaaplicacion/src/utils/utils.dart' as utils;
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 
@@ -22,9 +24,12 @@ class _AddPageState extends State<AddPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _textCreadorEditingController = TextEditingController();
   TextEditingController _textEnlaceEditingController = TextEditingController();
+  // ignore: unused_field
   TextEditingController _textSoporteEditingController = TextEditingController();
+  // ignore: unused_field
   TextEditingController _textTematicaEditingController =
       TextEditingController();
+  // ignore: unused_field
   TextEditingController _textTecnicaEditingController = TextEditingController();
   TextEditingController _textTituloEditingController = TextEditingController();
   TextEditingController _textUbicacionEditingController =
@@ -44,7 +49,8 @@ class _AddPageState extends State<AddPage> {
   String tematica;
   String titulo;
   String ubicacion;
-
+  final sopSel = new SoporteSel();
+  String valor = '';
   bool _validate() {
     final form = _formKey.currentState;
 
@@ -53,6 +59,13 @@ class _AddPageState extends State<AddPage> {
       return true;
     }
     return false;
+  }
+
+  @override
+  void initState() {
+    sopSel.soporte;
+    super.initState();
+    setState(() {});
   }
 
   @override
@@ -194,7 +207,9 @@ class _AddPageState extends State<AddPage> {
   _procesarImagen(
     ImageSource origen,
   ) async {
-    photoP = await ImagePicker.pickImage(source: origen);
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: origen);
+    photoP = File(pickedFile.path);
     if (photoP != null) {
       Navigator.pop(context);
     }
@@ -265,7 +280,9 @@ class _AddPageState extends State<AddPage> {
   _procesarImagen1(
     ImageSource origen,
   ) async {
-    photo1 = await ImagePicker.pickImage(source: origen);
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: origen);
+    photo1 = File(pickedFile.path);
     if (photo1 != null) {
       Navigator.pop(context);
     }
@@ -336,7 +353,10 @@ class _AddPageState extends State<AddPage> {
   _procesarImagen2(
     ImageSource origen,
   ) async {
-    photo2 = await ImagePicker.pickImage(source: origen);
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: origen);
+    photo2 = File(pickedFile.path);
+
     if (photo2 != null) {
       Navigator.pop(context);
     }
@@ -407,7 +427,9 @@ class _AddPageState extends State<AddPage> {
   _procesarImagen3(
     ImageSource origen,
   ) async {
-    photo3 = await ImagePicker.pickImage(source: origen);
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: origen);
+    photo3 = File(pickedFile.path);
     if (photo3 != null) {
       Navigator.pop(context);
     }
@@ -467,47 +489,37 @@ class _AddPageState extends State<AddPage> {
             SizedBox(
               height: 18.0,
             ),
-            TextFormField(
-              controller: _textSoporteEditingController,
-              cursorColor: Theme.of(context).primaryColor,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Soporte:'),
-              validator: (value) =>
-                  value.isEmpty ? 'Por favor ingrese el soporte ' : null,
-              onChanged: (value) =>
-                  soporte = value[0].toUpperCase() + value.substring(1),
-            ),
+            // _dropDownSoporte(),
             SizedBox(
               height: 18.0,
             ),
-            TextField(
-              controller: _textTematicaEditingController,
-              cursorColor: Theme.of(context).primaryColor,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Temática:'),
-              onChanged: (value) => tematica = value,
-            ),
-            SizedBox(
-              height: 18.0,
-            ),
-            TextFormField(
-              controller: _textTecnicaEditingController,
-              cursorColor: Theme.of(context).primaryColor,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Técnica artística:'),
-              validator: (value) => value.isEmpty
-                  ? 'Por favor ingrese la técnica artística'
-                  : null,
-              onChanged: (value) =>
-                  tecnica = value[0].toUpperCase() + value.substring(1),
-            ),
-            SizedBox(
-              height: 18.0,
-            ),
+//            TextField(
+//              controller: _textTematicaEditingController,
+//              cursorColor: Theme.of(context).primaryColor,
+//              keyboardType: TextInputType.text,
+//              decoration: InputDecoration(
+//                  border: OutlineInputBorder(), labelText: 'Temática:'),
+//              onChanged: (value) => tematica = value,
+//            ),
+//            SizedBox(
+//              height: 18.0,
+//            ),
+            // TextFormField(
+            //   controller: _textTecnicaEditingController,
+            //   cursorColor: Theme.of(context).primaryColor,
+            //   keyboardType: TextInputType.text,
+            //   decoration: InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       labelText: 'Técnica artística:'),
+            //   validator: (value) => value.isEmpty
+            //       ? 'Por favor ingrese la técnica artística'
+            //       : null,
+            //   onChanged: (value) =>
+            //       tecnica = value[0].toUpperCase() + value.substring(1),
+            // ),
+            // SizedBox(
+            //   height: 18.0,
+            // ),
             TextFormField(
               controller: _textUbicacionEditingController,
               cursorColor: Theme.of(context).primaryColor,
@@ -598,13 +610,6 @@ class _AddPageState extends State<AddPage> {
                 child: Text(
                   'Cancelar',
                   style: TextStyle(
-                    shadows: [
-                      Shadow(
-                        blurRadius: 14.0,
-                        color: Colors.black38,
-                        offset: Offset(0.0, 12.0),
-                      ),
-                    ],
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white70,
@@ -627,13 +632,6 @@ class _AddPageState extends State<AddPage> {
                 child: Text(
                   'Enviar',
                   style: TextStyle(
-                    shadows: [
-                      Shadow(
-                        blurRadius: 14.0,
-                        color: Colors.black38,
-                        offset: Offset(0.0, 12.0),
-                      ),
-                    ],
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white70,
@@ -732,14 +730,14 @@ class _AddPageState extends State<AddPage> {
         _subirImagen1(context);
         _subirImagen2(context);
         _subirImagen3(context);
-        await Firestore.instance.collection('ingresos').document().setData({
+        await FirebaseFirestore.instance.collection('ingresos').doc().set({
           'creador/autor': creador,
           'enlace': enlace,
           'fecha de captura': DateTime.now(),
           'imagen destacada': urlFoto,
           'imagenes': [urlFoto1, urlFoto2, urlFoto3],
           'localizacion': point.data['geopoint'],
-          'soporte': soporte,
+          'soporte': sopSel.soporte,
           'titulo': titulo,
           'tematica': tematica,
           'tecnica': tecnica,

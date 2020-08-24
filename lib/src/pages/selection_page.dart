@@ -78,7 +78,7 @@ class _SelectionPageState extends State<SelectionPage> {
     Color _color = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('ingresos').snapshots(),
+      stream: FirebaseFirestore.instance.collection('ingresos').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
         switch (snapshot.connectionState) {
@@ -90,9 +90,11 @@ class _SelectionPageState extends State<SelectionPage> {
             );
           default:
             return ListView.builder(
-              itemCount: snapshot.data.documents.length,
+              itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
-                final data = snapshot.data.documents[index];
+                final Map<String, dynamic> data =
+                    snapshot.data.docs[index].data();
+                final dataID = snapshot.data.docs[index].id;
                 return Column(
                   children: <Widget>[
                     Divider(),
@@ -126,10 +128,11 @@ class _SelectionPageState extends State<SelectionPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        _buildDeleteIcon(context, data),
+                        _buildDeleteIcon(context, dataID),
                         _buildApprovedIcon(
                           context,
                           data,
+                          dataID,
                           _color,
                         ),
                         Text(
@@ -146,8 +149,8 @@ class _SelectionPageState extends State<SelectionPage> {
     );
   }
 
-  Widget _buildDeleteIcon(BuildContext context, DocumentSnapshot data) {
-    final id = data.documentID;
+  Widget _buildDeleteIcon(BuildContext context, dataID) {
+    final id = dataID;
     return Container(
       child: IconButton(
           icon: Icon(CupertinoIcons.delete), onPressed: () => rejectItem(id)),
@@ -156,11 +159,12 @@ class _SelectionPageState extends State<SelectionPage> {
 
   Widget _buildApprovedIcon(
     BuildContext context,
-    DocumentSnapshot data,
+    Map<String, dynamic> data,
+    dataID,
     Color _color,
   ) {
-    final docs = data.data;
-    final id = data.documentID;
+    final docs = data;
+    final id = dataID;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -184,18 +188,18 @@ class _SelectionPageState extends State<SelectionPage> {
 }
 
 Future<void> rejectItem(String id) {
-  return Firestore.instance.collection('ingresos').document(id).delete();
+  return FirebaseFirestore.instance.collection('ingresos').doc(id).delete();
 }
 
 Future<void> approvedItem(
   Map<String, dynamic> docs,
 ) async {
-  await Firestore.instance.collection('aprobados').document().setData(docs);
+  await FirebaseFirestore.instance.collection('aprobados').doc().set(docs);
 }
 
 Future<void> updateStateItem(String id) async {
-  await Firestore.instance
+  await FirebaseFirestore.instance
       .collection('ingresos')
-      .document(id)
-      .updateData({'estado': 'Aprobado'});
+      .doc(id)
+      .update({'estado': 'Aprobado'});
 }
