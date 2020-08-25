@@ -14,7 +14,8 @@ class MapsPage extends StatefulWidget {
 
 class MapsPageState extends State<MapsPage> {
   Completer<GoogleMapController> _controller = Completer();
-  static const LatLng _center = const LatLng(4.5970, -74.0729);
+  Position _currentPosition;
+  static LatLng _center = LatLng(4.5970, -74.0729);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -89,12 +90,16 @@ class MapsPageState extends State<MapsPage> {
     _lastMapPosition = position.target;
   }
 
-  void getCurrentPosition() async {
-    await Geolocator().checkGeolocationPermissionStatus();
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print('____posicion___');
-    print('$position');
+  Future<void> getCurrentPosition() async {
+    Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
+    await geolocator.checkGeolocationPermissionStatus();
+    await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((position) {
+      _currentPosition = position;
+    }).catchError((e) {
+      print(e);
+    });
   }
 
   // void placemarkFromAddress() async {
@@ -106,49 +111,53 @@ class MapsPageState extends State<MapsPage> {
   @override
   Widget build(BuildContext context) {
     getCurrentPosition();
-
-    //placemarkFromAddress();
-
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 25, bottom: 55),
-            child: GoogleMap(
-              markers: Set<Marker>.of(markers.values),
-              onCameraMove: _onCameraMove,
-              mapType: _defaultMapType,
-              myLocationEnabled: true,
-              compassEnabled: true,
-              zoomGesturesEnabled: true,
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 18.0,
+          if (_currentPosition == null)
+            Center(
+              child: CupertinoActivityIndicator(),
+            )
+          else
+            Container(
+              padding: EdgeInsets.only(top: 25, bottom: 55),
+              child: GoogleMap(
+                markers: Set<Marker>.of(markers.values),
+                onCameraMove: _onCameraMove,
+                mapType: _defaultMapType,
+                myLocationEnabled: true,
+                compassEnabled: true,
+                zoomGesturesEnabled: true,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                      _currentPosition.latitude, _currentPosition.longitude),
+                  zoom: 18.0,
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Column(
-              children: <Widget>[
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 168),
-                //   child: FloatingActionButton(
 
-                //     heroTag: null,
-                //     onPressed: () {
-                //       _changeMapType();
-                //       // print('Cambiar tipo de mapa');
-                //     },
-                //     materialTapTargetSize: MaterialTapTargetSize.padded,
-                //     backgroundColor: Colors.orange,
-                //     child: const Icon(CupertinoIcons.refresh, size: 45.0),
-                //   ),
-                // ),
-              ],
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.topRight,
+          //   child: Column(
+          //     children: <Widget>[
+          //       // Padding(
+          //       //   padding: const EdgeInsets.only(top: 168),
+          //       //   child: FloatingActionButton(
+
+          //       //     heroTag: null,
+          //       //     onPressed: () {
+          //       //       _changeMapType();
+          //       //       // print('Cambiar tipo de mapa');
+          //       //     },
+          //       //     materialTapTargetSize: MaterialTapTargetSize.padded,
+          //       //     backgroundColor: Colors.orange,
+          //       //     child: const Icon(CupertinoIcons.refresh, size: 45.0),
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
           Positioned(bottom: 0, child: CustomBottomNavigatorBarComp()),
           Positioned(
             bottom: 50,

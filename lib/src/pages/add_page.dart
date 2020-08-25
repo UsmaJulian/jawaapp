@@ -38,7 +38,7 @@ class _AddPageState extends State<AddPage> {
   String urlFoto;
   String urlFoto1;
   String urlFoto2;
-  String urlFoto3;
+
   String creador;
   String enlace;
   String imagen;
@@ -71,8 +71,7 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     LatLng args = ModalRoute.of(context).settings.arguments;
-    print('====================');
-    print(args.latitude);
+
     Geoflutterfire geo = Geoflutterfire();
     GeoFirePoint point =
         geo.point(latitude: args.latitude, longitude: args.longitude);
@@ -104,7 +103,6 @@ class _AddPageState extends State<AddPage> {
               urlFoto,
               urlFoto1,
               urlFoto2,
-              urlFoto3,
             ),
             SizedBox(
               height: 80.0,
@@ -209,11 +207,15 @@ class _AddPageState extends State<AddPage> {
   ) async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: origen);
-    photoP = File(pickedFile.path);
-    if (photoP != null) {
+    if (pickedFile.path == null) {
       Navigator.pop(context);
+    } else {
+      photoP = File(pickedFile.path);
+      if (photoP != null) {
+        Navigator.pop(context);
+      }
+      setState(() {});
     }
-    setState(() {});
   }
 
 //imagen 1
@@ -363,79 +365,6 @@ class _AddPageState extends State<AddPage> {
     setState(() {});
   }
 
-//imagen 3
-  Widget _mostrarImagen3() {
-    if (photo3 != null) {
-      return Image.file(
-        photo3,
-        fit: BoxFit.cover,
-      );
-    } else {
-      return Image(
-        image: AssetImage('assets/images/no-image.png'),
-        fit: BoxFit.cover,
-      );
-    }
-  }
-
-  void showAlertDialog3(BuildContext context, File photo3) {
-    AlertDialog alert = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      title: Text(
-        "JAWA",
-        style: TextStyle(color: Theme.of(context).primaryColor),
-      ),
-      content: Text("Toma una fotografía o impórtala de tu galería"),
-      actions: [
-        IconButton(
-            icon: Icon(
-              Icons.camera_alt,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: () => _tomarFoto3()),
-        IconButton(
-            icon: Icon(
-              Icons.photo_size_select_actual,
-              color: Theme.of(context).primaryColor,
-            ),
-            onPressed: () => _seleccionarFoto3()),
-      ],
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  _seleccionarFoto3() async {
-    _procesarImagen3(
-      ImageSource.gallery,
-    );
-  }
-
-  _tomarFoto3() async {
-    _procesarImagen3(
-      ImageSource.camera,
-    );
-  }
-
-  _procesarImagen3(
-    ImageSource origen,
-  ) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: origen);
-    photo3 = File(pickedFile.path);
-    if (photo3 != null) {
-      Navigator.pop(context);
-    }
-    setState(() {});
-  }
-
   Widget _buildDataForm(BuildContext context) {
     return Form(
       key: _formKey,
@@ -451,7 +380,11 @@ class _AddPageState extends State<AddPage> {
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Título:'),
+                  border: OutlineInputBorder(),
+                  labelText: 'Título:',
+                  hintText:
+                      '¿Conoces el titulo?, puedes ingresarlo como desconocido.',
+                  hintStyle: TextStyle(fontSize: 12.0)),
               validator: (value) => value.isEmpty
                   ? 'Por favor ingrese el Título o ingrese como Desconocido'
                   : null,
@@ -465,9 +398,11 @@ class _AddPageState extends State<AddPage> {
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Creador/Autor:',
-              ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Creador/Autor:',
+                  hintText:
+                      '¿Conoces su nombre?, puedes ingresarlo como desconocido.',
+                  hintStyle: TextStyle(fontSize: 12.0)),
               validator: (value) => value.isEmpty
                   ? 'Por favor ingrese el Creador/Autor o ingrese como Desconocido'
                   : null,
@@ -483,49 +418,27 @@ class _AddPageState extends State<AddPage> {
               keyboardType: TextInputType.url,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Enlace de contacto del creador/autor:'),
+                  labelText: 'Enlace de contacto del creador/autor:',
+                  hintText:
+                      '¿Conoces sus redes sociales?, puedes ingresar como desconocido.',
+                  hintStyle: TextStyle(fontSize: 12.0)),
               onChanged: (value) => enlace = value,
             ),
             SizedBox(
               height: 18.0,
             ),
-            // _dropDownSoporte(),
+            dropDownTecnicasFirebase(),
             SizedBox(
               height: 18.0,
             ),
-//            TextField(
-//              controller: _textTematicaEditingController,
-//              cursorColor: Theme.of(context).primaryColor,
-//              keyboardType: TextInputType.text,
-//              decoration: InputDecoration(
-//                  border: OutlineInputBorder(), labelText: 'Temática:'),
-//              onChanged: (value) => tematica = value,
-//            ),
-//            SizedBox(
-//              height: 18.0,
-//            ),
-            // TextFormField(
-            //   controller: _textTecnicaEditingController,
-            //   cursorColor: Theme.of(context).primaryColor,
-            //   keyboardType: TextInputType.text,
-            //   decoration: InputDecoration(
-            //       border: OutlineInputBorder(),
-            //       labelText: 'Técnica artística:'),
-            //   validator: (value) => value.isEmpty
-            //       ? 'Por favor ingrese la técnica artística'
-            //       : null,
-            //   onChanged: (value) =>
-            //       tecnica = value[0].toUpperCase() + value.substring(1),
-            // ),
-            // SizedBox(
-            //   height: 18.0,
-            // ),
             TextFormField(
               controller: _textUbicacionEditingController,
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Ubicación:'),
+                  border: OutlineInputBorder(),
+                  labelText: 'Ubicación:',
+                  hintText: '¿Donde te encuentras?'),
               validator: (value) =>
                   value.isEmpty ? 'Por favor ingrese la ubicación' : null,
               onChanged: (value) =>
@@ -569,16 +482,6 @@ class _AddPageState extends State<AddPage> {
             ),
             onTap: () => showAlertDialog2(context, photo2),
           ),
-          InkWell(
-            child: Container(
-              width: 120,
-              height: 120,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: _mostrarImagen3()),
-            ),
-            onTap: () => showAlertDialog3(context, photo3),
-          ),
         ],
       ),
     );
@@ -590,7 +493,6 @@ class _AddPageState extends State<AddPage> {
     urlFoto,
     urlFoto1,
     urlFoto2,
-    urlFoto3,
   ) {
     return Container(
       padding: EdgeInsets.all(12.0),
@@ -624,8 +526,15 @@ class _AddPageState extends State<AddPage> {
               borderRadius: new BorderRadius.circular(20.0),
             ),
             color: Theme.of(context).primaryColor,
-            onPressed: () =>
-                _enviar(context, point, urlFoto, urlFoto1, urlFoto2, urlFoto3),
+            onPressed: () async {
+              await _subirImagendestacada(context);
+              await _subirImagen1(context);
+              await _subirImagen2(context);
+              _enviar(
+                context,
+                point,
+              );
+            },
             child: Container(
               width: 100,
               child: Center(
@@ -654,11 +563,11 @@ class _AddPageState extends State<AddPage> {
           .child("${photoP.path}");
       final StorageUploadTask task = fireStoreRef.putFile(
           photoP, StorageMetadata(contentType: 'image/jpeg'));
-      task.onComplete.then((onValue) {
-        onValue.ref.getDownloadURL().then((onValue) {
-          setState(() {
-            urlFoto = onValue.toString();
-          });
+      await task.onComplete.then((onValue) {
+        setState(() {
+          onValue.ref
+              .getDownloadURL()
+              .then((value) => urlFoto = value.toString());
         });
       });
     }
@@ -673,17 +582,19 @@ class _AddPageState extends State<AddPage> {
           .child('${photo1.path}');
       final StorageUploadTask task = fireStoreRef.putFile(
           photo1, StorageMetadata(contentType: 'image/jpeg'));
-      task.onComplete.then((onValue) {
-        onValue.ref.getDownloadURL().then((onValue) {
-          setState(() {
-            urlFoto1 = onValue.toString();
-          });
+      await task.onComplete.then((onValue) {
+        setState(() {
+          onValue.ref
+              .getDownloadURL()
+              .then((value) => urlFoto1 = value.toString());
         });
       });
     }
   }
 
-  Future<void> _subirImagen2(BuildContext context) async {
+  Future<void> _subirImagen2(
+    BuildContext context,
+  ) async {
     if (photo2 != null) {
       final StorageReference fireStoreRef = FirebaseStorage.instance
           .ref()
@@ -692,64 +603,39 @@ class _AddPageState extends State<AddPage> {
           .child('${photo2.path}');
       final StorageUploadTask task = fireStoreRef.putFile(
           photo2, StorageMetadata(contentType: 'image/jpeg'));
-      task.onComplete.then((onValue) {
-        onValue.ref.getDownloadURL().then((onValue) {
-          setState(() {
-            urlFoto2 = onValue.toString();
-          });
+      await task.onComplete.then((onValue) {
+        setState(() {
+          onValue.ref
+              .getDownloadURL()
+              .then((value) => urlFoto2 = value.toString());
         });
       });
     }
   }
 
-  Future<void> _subirImagen3(BuildContext context) async {
-    if (photo3 != null) {
-      final StorageReference fireStoreRef = FirebaseStorage.instance
-          .ref()
-          .child('$ubicacion')
-          .child('$creador')
-          .child('${photo3.path}');
-      final StorageUploadTask task = fireStoreRef.putFile(
-          photo3, StorageMetadata(contentType: 'image/jpeg'));
-      task.onComplete.then((onValue) {
-        onValue.ref.getDownloadURL().then((onValue) {
-          setState(() {
-            urlFoto3 = onValue.toString();
-          });
-        });
-      });
-    }
-  }
-
-  void _enviar(BuildContext context, point, urlFoto, urlFoto1, urlFoto2,
-      urlFoto3) async {
+  _enviar(BuildContext context, point) async {
     print(creador);
     if (_validate()) {
-      if (utils.urlIsEmpty(urlFoto)) {
-        _subirImagendestacada(context);
-        _subirImagen1(context);
-        _subirImagen2(context);
-        _subirImagen3(context);
-        await FirebaseFirestore.instance.collection('ingresos').doc().set({
-          'creador/autor': creador,
-          'enlace': enlace,
-          'fecha de captura': DateTime.now(),
-          'imagen destacada': urlFoto,
-          'imagenes': [urlFoto1, urlFoto2, urlFoto3],
-          'localizacion': point.data['geopoint'],
-          'soporte': sopSel.soporte,
-          'titulo': titulo,
-          'tematica': tematica,
-          'tecnica': tecnica,
-          'uid': widget.uid,
-          'ubicacion': ubicacion
-        });
-        setState(() {
-          _ackAlert(context);
-        });
-      } else {
-        utils.showAlert(context, 'Los datos ingresados son incorrectos');
-      }
+      print('url de la foto $urlFoto1');
+      await FirebaseFirestore.instance.collection('ingresos').doc().set({
+        'creador/autor': creador,
+        'enlace': enlace,
+        'fecha de captura': DateTime.now(),
+        'imagen destacada': urlFoto,
+        'imagenes': [urlFoto1, urlFoto2],
+        'localizacion': point.data['geopoint'],
+        // 'soporte': sopSel.soporte,
+        'titulo': titulo,
+        // 'tematica': tematica,
+        'tecnica': tecnica,
+        'uid': widget.uid,
+        'ubicacion': ubicacion
+      });
+      setState(() {
+        _ackAlert(context);
+      });
+    } else {
+      utils.showAlert(context, 'Los datos ingresados son incorrectos');
     }
   }
 
@@ -773,5 +659,55 @@ class _AddPageState extends State<AddPage> {
         );
       },
     );
+  }
+
+  dropDownTecnicasFirebase() {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('tecnicas').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData)
+            Center(
+              child: const CupertinoActivityIndicator(),
+            );
+          return Container(
+            padding: EdgeInsets.all(18.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5.0)),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: tecnica,
+                isDense: true,
+                isExpanded: true,
+                hint: Text('Técnicas'),
+                onChanged: (newValue) {
+                  setState(() {
+                    tecnica = newValue;
+                  });
+                },
+                items: snapshot.data != null
+                    ? snapshot.data.docs.map((DocumentSnapshot document) {
+                        return new DropdownMenuItem<String>(
+                            value: document.data()['nombre'].toString(),
+                            child: new Container(
+                              height: 15.0,
+                              //color: primaryColor,
+                              child: new Text(
+                                document.data()['nombre'].toString(),
+                                style: TextStyle(color: Colors.orange),
+                              ),
+                            ));
+                      }).toList()
+                    : DropdownMenuItem(
+                        value: 'null',
+                        child: new Container(
+                          height: 15.0,
+                          child: new Text('null'),
+                        ),
+                      ),
+              ),
+            ),
+          );
+        });
   }
 }
