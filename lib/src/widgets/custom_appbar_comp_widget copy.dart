@@ -9,7 +9,8 @@ class CustomAppBarCompCopy extends StatefulWidget {
 
 class _CustomAppBarCompCopyState extends State<CustomAppBarCompCopy> {
   // ignore: unused_field
-  Color _color;
+  Color _color1;
+  Color _color2;
   final fieldP = new FieldSelection();
   @override
   void initState() {
@@ -76,10 +77,12 @@ class _CustomAppBarCompCopyState extends State<CustomAppBarCompCopy> {
                             InkWell(
                               child: Text(
                                 'Técnica',
-                                style: TextStyle(color: Colors.orange),
+                                style: TextStyle(color: _color1),
                               ),
                               onTap: () {
                                 setState(() {
+                                  _color1 = Colors.orange;
+                                  _color2 = Colors.grey;
                                   fieldP.seleccion = 'tecnica';
                                 });
                                 Navigator.pushNamed(context, 'collection');
@@ -91,11 +94,13 @@ class _CustomAppBarCompCopyState extends State<CustomAppBarCompCopy> {
                             InkWell(
                               child: Text(
                                 'Ubicación',
-                                style: TextStyle(color: Colors.orange),
+                                style: TextStyle(color: _color2),
                               ),
                               onTap: () {
                                 setState(() {
                                   fieldP.seleccion = 'ubicacion';
+                                  _color1 = Colors.grey;
+                                  _color2 = Colors.orange;
                                 });
                                 Navigator.pushNamed(context, 'collection');
                               },

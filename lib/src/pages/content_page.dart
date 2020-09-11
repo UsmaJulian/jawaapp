@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 
 class ContentPage extends StatefulWidget {
@@ -60,15 +59,7 @@ class _ContentPageState extends State<ContentPage> {
                 ),
                 subtitle: Text('${data['creador/autor']}'),
               )),
-          Card(
-              elevation: 2,
-              child: ListTile(
-                title: Text(
-                  'Enlace de contacto del creador: ',
-                  style: TextStyle(color: Colors.orange),
-                ),
-                subtitle: Text('${data['enlace']}'),
-              )),
+
           // Card(
           //     elevation: 2,
           //     child: ListTile(
@@ -97,11 +88,20 @@ class _ContentPageState extends State<ContentPage> {
               elevation: 2,
               child: ListTile(
                 title: Text(
-                  'Fecha de captura de la fotografía: ',
+                  'Enlace de contacto del creador: ',
                   style: TextStyle(color: Colors.orange),
                 ),
-                subtitle: Text('${d.toString()}'),
+                subtitle: Text('${data['enlace']}'),
               )),
+          // Card(
+          //     elevation: 2,
+          //     child: ListTile(
+          //       title: Text(
+          //         'Fecha de captura de la fotografía: ',
+          //         style: TextStyle(color: Colors.orange),
+          //       ),
+          //       subtitle: Text('${d.toString()}'),
+          //     )),
         ],
       ),
     );

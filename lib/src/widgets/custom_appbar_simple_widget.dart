@@ -24,8 +24,8 @@ class CustomAppBarSimple extends StatelessWidget {
             )
           ],
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(25.0),
-            bottomRight: Radius.circular(25.0),
+            bottomLeft: Radius.circular(20.0),
+            bottomRight: Radius.circular(20.0),
           ),
         ),
         child: Row(

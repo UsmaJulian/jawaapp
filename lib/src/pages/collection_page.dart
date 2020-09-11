@@ -52,8 +52,15 @@ class _CollectionPageState extends State<CollectionPage> {
                   itemCount: snapshot.data.docs.length,
                   padding: EdgeInsets.all(10.0),
                   itemBuilder: (BuildContext context, int index) {
-                    return _SwiperCollection(
-                        data: snapshot.data.docs[index].data());
+                    return GestureDetector(
+                      child: _SwiperCollection(
+                          data: snapshot.data.docs[index].data()),
+                      onTap: () {
+                        final datos = snapshot.data.docs[index].data();
+                        Navigator.pushNamed(context, 'content',
+                            arguments: datos);
+                      },
+                    );
                   },
                 ));
               }
@@ -106,7 +113,7 @@ class __SwiperCollectionState extends State<_SwiperCollection> {
             children: [
               Container(
                 child: Text(
-                  '${widget.data['creador/autor']}',
+                  '${widget.data['tecnica']}',
                   style: TextStyle(
                     color: Colors.orange,
                   ),

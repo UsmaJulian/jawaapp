@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class MapsPage extends StatefulWidget {
   MapsPageState createState() => MapsPageState();
 }
 
-class MapsPageState extends State<MapsPage> {
+class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
   Completer<GoogleMapController> _controller = Completer();
   Position _currentPosition;
   static LatLng _center = LatLng(4.5970, -74.0729);
@@ -78,7 +79,12 @@ class MapsPageState extends State<MapsPage> {
         position: _lastMapPosition,
         icon: BitmapDescriptor.defaultMarker,
       ));
-      Navigator.pushNamed(context, 'add', arguments: _lastMapPosition);
+      Navigator.pushNamed(
+        context,
+        'add',
+        arguments:
+            LatLng(_currentPosition.latitude, _currentPosition.longitude),
+      );
     });
   }
 
@@ -90,15 +96,12 @@ class MapsPageState extends State<MapsPage> {
     _lastMapPosition = position.target;
   }
 
-  Future<void> getCurrentPosition() async {
-    Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
-    await geolocator.checkGeolocationPermissionStatus();
-    await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((position) {
+  getCurrentPos() async {
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
       _currentPosition = position;
-    }).catchError((e) {
-      print(e);
     });
   }
 
@@ -107,10 +110,14 @@ class MapsPageState extends State<MapsPage> {
   //       await Geolocator().placemarkFromAddress("La Candelaria, Bogotá");
   //   print('____la patria___');
   // }
+  @override
+  void afterFirstLayout(BuildContext context) {
+    getCurrentPos();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    getCurrentPosition();
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -120,7 +127,10 @@ class MapsPageState extends State<MapsPage> {
             )
           else
             Container(
-              padding: EdgeInsets.only(top: 25, bottom: 55),
+              margin: EdgeInsets.only(
+                top: 30,
+              ),
+              padding: EdgeInsets.only(top: 55, bottom: 60),
               child: GoogleMap(
                 markers: Set<Marker>.of(markers.values),
                 onCameraMove: _onCameraMove,
@@ -229,7 +239,7 @@ class MapsPageState extends State<MapsPage> {
                   _gotoLocation(lat, long);
                 },
                 onDoubleTap: () {
-                  final dataL = data.docs[index];
+                  final dataL = data.docs[index].data();
                   Navigator.pushNamed(context, 'content', arguments: dataL);
                 },
                 child: Container(
