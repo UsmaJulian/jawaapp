@@ -38,40 +38,40 @@ class PreferencesPage extends StatelessWidget {
     var actionItems = List<Widget>();
 
     actionItems.addAll([
-      ButtonTheme(
-        buttonColor: Colors.orange,
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Text(
-            "WIFI",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            AppSettings.openWIFISettings();
-          },
-        ),
-      ),
-      ButtonTheme(
-        buttonColor: Colors.orange,
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Text(
-            "Fecha",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            AppSettings.openDateSettings();
-          },
-        ),
-      ),
+      // ButtonTheme(
+      //   buttonColor: Colors.orange,
+      //   minWidth: 160,
+      //   height: 40,
+      //   child: RaisedButton(
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(20.0),
+      //     ),
+      //     child: Text(
+      //       "WIFI",
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //     onPressed: () {
+      //       AppSettings.openWIFISettings();
+      //     },
+      //   ),
+      // ),
+      // ButtonTheme(
+      //   buttonColor: Colors.orange,
+      //   minWidth: 160,
+      //   height: 40,
+      //   child: RaisedButton(
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.circular(20.0),
+      //     ),
+      //     child: Text(
+      //       "Fecha",
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //     onPressed: () {
+      //       AppSettings.openDateSettings();
+      //     },
+      //   ),
+      // ),
       ButtonTheme(
         buttonColor: Colors.orange,
         minWidth: 160,

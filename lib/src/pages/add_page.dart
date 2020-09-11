@@ -383,7 +383,7 @@ class _AddPageState extends State<AddPage> {
                   border: OutlineInputBorder(),
                   labelText: 'Título:',
                   hintText:
-                      '¿Conoces el titulo?, puedes ingresarlo como desconocido.',
+                      'Agrega el título, si no lo conoces ingresa “Desconocido.',
                   hintStyle: TextStyle(fontSize: 12.0)),
               validator: (value) => value.isEmpty
                   ? 'Por favor ingrese el Título o ingrese como Desconocido'
@@ -401,7 +401,7 @@ class _AddPageState extends State<AddPage> {
                   border: OutlineInputBorder(),
                   labelText: 'Creador/Autor:',
                   hintText:
-                      '¿Conoces su nombre?, puedes ingresarlo como desconocido.',
+                      'Agrega el nombre, si no lo conoces ingresa “Desconocido.',
                   hintStyle: TextStyle(fontSize: 12.0)),
               validator: (value) => value.isEmpty
                   ? 'Por favor ingrese el Creador/Autor o ingrese como Desconocido'
@@ -420,7 +420,7 @@ class _AddPageState extends State<AddPage> {
                   border: OutlineInputBorder(),
                   labelText: 'Enlace de contacto del creador/autor:',
                   hintText:
-                      '¿Conoces sus redes sociales?, puedes ingresar como desconocido.',
+                      '¿Conoces sus redes sociales? Si no es así deja la casilla en blanco.',
                   hintStyle: TextStyle(fontSize: 12.0)),
               onChanged: (value) => enlace = value,
             ),
