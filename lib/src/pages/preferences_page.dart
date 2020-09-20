@@ -39,7 +39,7 @@ class PreferencesPage extends StatelessWidget {
 
     actionItems.addAll([
       // ButtonTheme(
-      //   buttonColor: Colors.orange,
+      //   buttonColor: Color(0xffFFBA2E),
       //   minWidth: 160,
       //   height: 40,
       //   child: RaisedButton(
@@ -56,7 +56,7 @@ class PreferencesPage extends StatelessWidget {
       //   ),
       // ),
       // ButtonTheme(
-      //   buttonColor: Colors.orange,
+      //   buttonColor: Color(0xffFFBA2E),
       //   minWidth: 160,
       //   height: 40,
       //   child: RaisedButton(
@@ -73,41 +73,7 @@ class PreferencesPage extends StatelessWidget {
       //   ),
       // ),
       ButtonTheme(
-        buttonColor: Colors.orange,
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Text(
-            "Localización",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            AppSettings.openLocationSettings();
-          },
-        ),
-      ),
-      ButtonTheme(
-        buttonColor: Colors.orange,
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Text(
-            "Almacenamiento interno",
-            style: TextStyle(color: Colors.white, fontSize: 12),
-          ),
-          onPressed: () {
-            AppSettings.openInternalStorageSettings();
-          },
-        ),
-      ),
-      ButtonTheme(
-        buttonColor: Colors.orange,
+        buttonColor: Color(0xffFFBA2E),
         minWidth: 160,
         height: 40,
         child: RaisedButton(
@@ -125,7 +91,7 @@ class PreferencesPage extends StatelessWidget {
         ),
       ),
       ButtonTheme(
-        buttonColor: Colors.orange,
+        buttonColor: Color(0xffFFBA2E),
         minWidth: 160,
         height: 40,
         child: RaisedButton(
@@ -143,7 +109,7 @@ class PreferencesPage extends StatelessWidget {
         ),
       ),
       ButtonTheme(
-        buttonColor: Colors.orange,
+        buttonColor: Color(0xffFFBA2E),
         minWidth: 160,
         height: 40,
         child: RaisedButton(
@@ -161,7 +127,7 @@ class PreferencesPage extends StatelessWidget {
         ),
       ),
       ButtonTheme(
-        buttonColor: Colors.orange,
+        buttonColor: Color(0xffFFBA2E),
         minWidth: 160,
         height: 40,
         child: RaisedButton(
@@ -175,6 +141,40 @@ class PreferencesPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => LegalPage()));
+          },
+        ),
+      ),
+      ButtonTheme(
+        buttonColor: Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Text(
+            "Localización",
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            AppSettings.openLocationSettings();
+          },
+        ),
+      ),
+      ButtonTheme(
+        buttonColor: Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: RaisedButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Text(
+            "Almacenamiento interno",
+            style: TextStyle(color: Colors.white, fontSize: 12),
+          ),
+          onPressed: () {
+            AppSettings.openInternalStorageSettings();
           },
         ),
       ),

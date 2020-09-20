@@ -81,7 +81,7 @@ class _CustomAppBarCompCopyState extends State<CustomAppBarCompCopy> {
                               ),
                               onTap: () {
                                 setState(() {
-                                  _color1 = Colors.orange;
+                                  _color1 = Color(0xffFFBA2E);
                                   _color2 = Colors.grey;
                                   fieldP.seleccion = 'tecnica';
                                 });
@@ -100,7 +100,7 @@ class _CustomAppBarCompCopyState extends State<CustomAppBarCompCopy> {
                                 setState(() {
                                   fieldP.seleccion = 'ubicacion';
                                   _color1 = Colors.grey;
-                                  _color2 = Colors.orange;
+                                  _color2 = Color(0xffFFBA2E);
                                 });
                                 Navigator.pushNamed(context, 'collection');
                               },

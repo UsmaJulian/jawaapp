@@ -104,7 +104,9 @@ class __SwiperCollectionState extends State<_SwiperCollection> {
                     bottom: 12.0,
                   ),
                   builder: DotSwiperPaginationBuilder(
-                      activeColor: Colors.orange, size: 6.0, activeSize: 6)),
+                      activeColor: Color(0xffFFBA2E),
+                      size: 6.0,
+                      activeSize: 6)),
             ),
           ),
           Column(
@@ -115,7 +117,7 @@ class __SwiperCollectionState extends State<_SwiperCollection> {
                 child: Text(
                   '${widget.data['tecnica']}',
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: Color(0xffFFBA2E),
                   ),
                 ),
               ),

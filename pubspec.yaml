@@ -3,7 +3,7 @@ name: jawaaplicacion
 description: jawa
 version: 1.0.0+1
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: ">=2.7.0 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter
@@ -24,11 +24,18 @@ dependencies:
   uuid: ^2.2.2
   app_settings: ^4.0.3
   after_layout: ^1.0.7+2
+  url_launcher: ^5.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.8.0"
+flutter_icons:
+  android: launcher_icon
+  ios: true
+  image_path: "assets/images/logo.png" 
+   
 flutter:
   uses-material-design: true
   assets:
-  - assets/images/
-  - assets/demo/
+    - assets/images/
+    - assets/demo/

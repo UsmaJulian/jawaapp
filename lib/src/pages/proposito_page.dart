@@ -106,7 +106,7 @@ class _PropositoPageState extends State<PropositoPage> {
                 child: Text(
                   'Identificación y registro de prácticas artísticas correspondientes a apropiaciones simbólicas duraderas en el espacio público de la Ciudad de Bogotá, con una posterior catalogación georreferenciada de dichas obras artísticas por medio de una aplicación móvil multiplataforma promovida por medio de un sistema de curaduría colaborativa (ciudadanos + expertos), abordado desde una perspectiva de investigación-creación.',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                   ),
                   textAlign: TextAlign.justify,
                 ),

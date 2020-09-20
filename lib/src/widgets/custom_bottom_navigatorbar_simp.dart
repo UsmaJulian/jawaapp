@@ -50,7 +50,7 @@ class _CustomBottomNavigatorBarCompState
                           icon: Icon(
                             CupertinoIcons.profile_circled,
                             size: 30,
-                            color: Colors.orange,
+                            color: Color(0xffFFBA2E),
                           ),
                           onPressed: () =>
                               Navigator.pushNamed(context, 'profile'),
@@ -59,7 +59,7 @@ class _CustomBottomNavigatorBarCompState
                         title: Text(
                           'Perfil',
                           style: TextStyle(
-                              color: Colors.orange,
+                              color: Color(0xffFFBA2E),
                               fontSize: 13.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -69,7 +69,7 @@ class _CustomBottomNavigatorBarCompState
                             icon: Icon(
                               CupertinoIcons.book_solid,
                               size: 30,
-                              color: Colors.orange,
+                              color: Color(0xffFFBA2E),
                             ),
                             onPressed: () =>
                                 Navigator.pushNamed(context, 'collection'),
@@ -77,7 +77,7 @@ class _CustomBottomNavigatorBarCompState
                           title: Text(
                             'Biblioteca',
                             style: TextStyle(
-                                color: Colors.orange,
+                                color: Color(0xffFFBA2E),
                                 fontSize: 13.0,
                                 fontWeight: FontWeight.bold),
                           )),

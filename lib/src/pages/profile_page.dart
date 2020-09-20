@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         leading: Container(
                           height: size.height * 0.5,
                           decoration: BoxDecoration(
-                            color: Colors.orange[50],
+                            color: Color(0xffFFBA2E),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: ClipRRect(

@@ -75,8 +75,10 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
   void _onAddMarkerButtonPressed() {
     setState(() {
       _markers.add(Marker(
-        markerId: MarkerId(_lastMapPosition.toString()),
-        position: _lastMapPosition,
+        markerId: MarkerId(
+            LatLng(_currentPosition.latitude, _currentPosition.longitude)
+                .toString()),
+        position: LatLng(_currentPosition.latitude, _currentPosition.longitude),
         icon: BitmapDescriptor.defaultMarker,
       ));
       Navigator.pushNamed(
@@ -90,6 +92,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
 
   final Set<Marker> _markers = {};
 
+  // ignore: unused_field
   LatLng _lastMapPosition = _center;
 
   void _onCameraMove(CameraPosition position) {
@@ -161,7 +164,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
           //       //       // print('Cambiar tipo de mapa');
           //       //     },
           //       //     materialTapTargetSize: MaterialTapTargetSize.padded,
-          //       //     backgroundColor: Colors.orange,
+          //       //     backgroundColor: Color(0xffFFBA2E),
           //       //     child: const Icon(CupertinoIcons.refresh, size: 45.0),
           //       //   ),
           //       // ),
@@ -181,7 +184,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
                 heroTag: null,
                 onPressed: _onAddMarkerButtonPressed,
                 materialTapTargetSize: MaterialTapTargetSize.padded,
-                backgroundColor: Colors.orange,
+                backgroundColor: Color(0xffFFBA2E),
                 child: const Icon(CupertinoIcons.add, size: 40.0),
               ),
             ),
@@ -270,7 +273,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
                               Container(
                                 padding: EdgeInsets.only(right: 20),
                                 child: Text(data.docs[index].data()['tecnica'],
-                                    style: TextStyle(color: Colors.orange),
+                                    style: TextStyle(color: Color(0xffFFBA2E)),
                                     textAlign: TextAlign.left),
                               ),
                               Container(

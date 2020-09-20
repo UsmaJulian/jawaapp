@@ -694,7 +694,7 @@ class _AddPageState extends State<AddPage> {
                               //color: primaryColor,
                               child: new Text(
                                 document.data()['nombre'].toString(),
-                                style: TextStyle(color: Colors.orange),
+                                style: TextStyle(color: Color(0xffFFBA2E)),
                               ),
                             ));
                       }).toList()

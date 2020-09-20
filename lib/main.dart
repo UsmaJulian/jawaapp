@@ -65,8 +65,8 @@ class MyApp extends StatelessWidget {
               'selection': (BuildContext context) => SelectionPage(),
             },
             theme: ThemeData(
-              primaryColor: Colors.orange,
-              iconTheme: IconThemeData(color: Colors.orange),
+              primaryColor: Color(0xffFFBA2E),
+              iconTheme: IconThemeData(color: Color(0xffFFBA2E)),
             ),
           );
         },

@@ -44,6 +44,7 @@ class _ContentPageState extends State<ContentPage> {
 
   Widget _buildCards(data) {
     Timestamp t = data['fecha de captura'];
+    // ignore: unused_local_variable
     DateTime d = t.toDate();
     return Container(
       margin: EdgeInsets.all(18.0),
@@ -55,7 +56,7 @@ class _ContentPageState extends State<ContentPage> {
               child: ListTile(
                 title: Text(
                   'Creador/Autor: ',
-                  style: TextStyle(color: Colors.orange),
+                  style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
                 subtitle: Text('${data['creador/autor']}'),
               )),
@@ -71,7 +72,7 @@ class _ContentPageState extends State<ContentPage> {
               child: ListTile(
                 title: Text(
                   'Técnica artística: ',
-                  style: TextStyle(color: Colors.orange),
+                  style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
                 subtitle: Text('${data['tecnica']}'),
               )),
@@ -80,7 +81,7 @@ class _ContentPageState extends State<ContentPage> {
               child: ListTile(
                 title: Text(
                   'Ubicación: ',
-                  style: TextStyle(color: Colors.orange),
+                  style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
                 subtitle: Text('${data['ubicacion']}'),
               )),
@@ -89,7 +90,7 @@ class _ContentPageState extends State<ContentPage> {
               child: ListTile(
                 title: Text(
                   'Enlace de contacto del creador: ',
-                  style: TextStyle(color: Colors.orange),
+                  style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
                 subtitle: Text('${data['enlace']}'),
               )),
@@ -98,7 +99,7 @@ class _ContentPageState extends State<ContentPage> {
           //     child: ListTile(
           //       title: Text(
           //         'Fecha de captura de la fotografía: ',
-          //         style: TextStyle(color: Colors.orange),
+          //         style: TextStyle(color: Color(0xffFFBA2E)),
           //       ),
           //       subtitle: Text('${d.toString()}'),
           //     )),
@@ -155,7 +156,7 @@ class _SwipperImages extends StatelessWidget {
               bottom: 12.0,
             ),
             builder: DotSwiperPaginationBuilder(
-                activeColor: Colors.orange, size: 6.0, activeSize: 6)),
+                activeColor: Color(0xffFFBA2E), size: 6.0, activeSize: 6)),
       ),
     );
   }

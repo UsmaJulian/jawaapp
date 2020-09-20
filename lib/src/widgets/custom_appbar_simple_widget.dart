@@ -47,7 +47,7 @@ class CustomAppBarSimple extends StatelessWidget {
               icon: Icon(
                 CupertinoIcons.gear_solid,
                 size: 30,
-                color: Colors.orange,
+                color: Color(0xffFFBA2E),
               ),
               onPressed: () => Navigator.pushNamed(context, 'preferences'),
             ),

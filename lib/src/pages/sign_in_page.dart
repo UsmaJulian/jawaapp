@@ -115,7 +115,7 @@ class _SignInPageState extends State<SignInPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0),
                   ),
-                  color: Colors.orange,
+                  color: Color(0xffFFBA2E),
                   child: Container(
                       width: 200, child: Center(child: Text('Ingresar'))),
                   onPressed: () => _signInAnonymously(context),
