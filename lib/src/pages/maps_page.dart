@@ -101,7 +101,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
 
   getCurrentPos() async {
     Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
     setState(() {
       _currentPosition = position;
