@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>550631012564-3i6kbshu0qln1nvj44gbbm8pkfhhdckl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.550631012564-3i6kbshu0qln1nvj44gbbm8pkfhhdckl</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>550631012564-02v0o7d7u2or4frju914adpee50b6dgo.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCYLJhGNzbCV_jbG6W-n5XsepUG87orqjA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>550631012564</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.juliandev.jawaaplicacion</string>
+	<key>PROJECT_ID</key>
+	<string>jawa-bb4fd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>jawa-bb4fd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:550631012564:ios:fe2b10aa43313eeb206341</string>
+	<key>DATABASE_URL</key>
+	<string>https://jawa-bb4fd.firebaseio.com</string>
+</dict>
+</plist>
