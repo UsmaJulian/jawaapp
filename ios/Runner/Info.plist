@@ -41,5 +41,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+    	<string>App requires access to your gallery to allow you to usage  photos of your ID to process your request</string>
+    	<keyNSCameraUsageDescription</key>
+        	<string>App requires access to your Camera to allow you to usage  photos of your ID to process your request</string>
+        	<key>NSMicrophoneUsageDescription</key>
+            	<string>App requires access to your Microphone to allow you to usage  Camera of your ID to process your request</string>
+            	<key>io.flutter.embedded_views_preview</key>
+                	<true/>
 </dict>
 </plist>
