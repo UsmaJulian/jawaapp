@@ -71,8 +71,10 @@ class _CustomBottomNavigatorBarCompState
                               size: 30,
                               color: Color(0xffFFBA2E),
                             ),
-                            onPressed: () =>
-                                Navigator.pushNamed(context, 'collection'),
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              'collection',
+                            ),
                           ),
                           title: Text(
                             'Biblioteca',

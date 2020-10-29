@@ -96,35 +96,37 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: PageView(
-                  children: _list,
-                  controller: _controller,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 18.0),
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(20.0),
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.88,
+                  child: PageView(
+                    children: _list,
+                    controller: _controller,
                   ),
-                  color: Color(0xffFFBA2E),
-                  child: Container(
-                      width: 200, child: Center(child: Text('Ingresar'))),
-                  onPressed: () => _signInAnonymously(context),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 1.0),
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                    ),
+                    color: Color(0xffFFBA2E),
+                    child: Container(
+                        width: 200, child: Center(child: Text('Ingresar'))),
+                    onPressed: () => _signInAnonymously(context),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -138,6 +140,6 @@ class SliderBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(padding: EdgeInsets.all(10), child: child);
+    return Container(padding: EdgeInsets.all(1), child: child);
   }
 }

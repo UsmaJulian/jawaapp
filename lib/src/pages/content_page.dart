@@ -15,11 +15,13 @@ class _ContentPageState extends State<ContentPage> {
 
     return Scaffold(
         extendBodyBehindAppBar: false,
-        body: Stack(
-          children: <Widget>[
-            SingleChildScrollView(child: _buildImage(data)),
-            CustomAppBarComp(),
-          ],
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              SingleChildScrollView(child: _buildImage(data)),
+              CustomAppBarComp(),
+            ],
+          ),
         ));
   }
 
@@ -30,7 +32,7 @@ class _ContentPageState extends State<ContentPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
-          height: 30.0,
+          height: 70.0,
         ),
         _SwipperImages(data: data),
         _buildCards(data),
@@ -140,14 +142,14 @@ class _SwipperImages extends StatelessWidget {
     List<String> imagenes = this.data['imagenes'].cast<String>();
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.6,
       color: Colors.white,
       child: new Swiper(
         itemBuilder: (BuildContext context, int index) {
           return FadeInImage(
             placeholder: AssetImage('assets/images/no-image.png'),
             image: NetworkImage('${imagenes[index]}'),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           );
         },
         itemCount: imagenes.length,

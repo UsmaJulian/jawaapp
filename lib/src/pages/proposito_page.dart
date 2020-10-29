@@ -19,7 +19,7 @@ class _PropositoPageState extends State<PropositoPage> {
           height: 400,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             "Con Jawa podrás capturar imágenes de obras de arte público que llamen tu atención. Simplemente debes tomar una fotografía desde la app o importarla desde tu galería.",
             textAlign: TextAlign.justify,
@@ -35,7 +35,7 @@ class _PropositoPageState extends State<PropositoPage> {
           height: 400,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             "Asegúrate de tener encendido el gps de tu dispositivo para que podamos registrar la ubicación de la obra en la ciudad.",
             textAlign: TextAlign.justify,
@@ -51,7 +51,7 @@ class _PropositoPageState extends State<PropositoPage> {
           height: 400,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Text(
             "Para terminar, completa las casillas de información requeridas y ya está. Dentro de la app podrás navegar por cientos de registros de obras de arte público, hechos por muchas personas en diferentes zonas del país.",
             textAlign: TextAlign.justify,
@@ -84,35 +84,40 @@ class _PropositoPageState extends State<PropositoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        child: CustomAppBarComp(),
-        preferredSize: Size(double.infinity, 70),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.70,
-              child: PageView(
-                children: _list,
-                controller: _controller,
+    return SafeArea(
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: CustomAppBarComp(),
+          preferredSize: Size(double.infinity, 70),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 35.0, right: 35.0),
-              child: Center(
-                child: Text(
-                  'Identificación y registro de prácticas artísticas correspondientes a apropiaciones simbólicas duraderas en el espacio público de la Ciudad de Bogotá, con una posterior catalogación georreferenciada de dichas obras artísticas por medio de una aplicación móvil multiplataforma promovida por medio de un sistema de curaduría colaborativa (ciudadanos + expertos), abordado desde una perspectiva de investigación-creación.',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                  textAlign: TextAlign.justify,
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.9,
+                child: PageView(
+                  children: _list,
+                  controller: _controller,
                 ),
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(left: 35.0, right: 35.0),
+                child: Center(
+                  child: Text(
+                    'Identificación y registro de prácticas artísticas correspondientes a apropiaciones simbólicas duraderas en el espacio público de la Ciudad de Bogotá, con una posterior catalogación georreferenciada de dichas obras artísticas por medio de una aplicación móvil multiplataforma promovida por medio de un sistema de curaduría colaborativa (ciudadanos + expertos), abordado desde una perspectiva de investigación-creación.',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

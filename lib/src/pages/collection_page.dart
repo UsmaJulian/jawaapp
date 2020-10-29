@@ -95,7 +95,7 @@ class __SwiperCollectionState extends State<_SwiperCollection> {
                 return FadeInImage(
                   placeholder: AssetImage('assets/images/no-image.png'),
                   image: NetworkImage('${imagenes[index]}'),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 );
               },
               itemCount: imagenes.length,
