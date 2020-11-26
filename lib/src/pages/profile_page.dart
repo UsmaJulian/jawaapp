@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -54,10 +55,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserInfo(BuildContext context) {
+    print(FirebaseAuth.instance.currentUser.uid);
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .where('uid', isEqualTo: widget.uid)
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser.uid)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         return Container(
