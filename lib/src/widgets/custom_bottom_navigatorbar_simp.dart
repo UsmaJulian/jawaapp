@@ -56,33 +56,22 @@ class _CustomBottomNavigatorBarCompState
                               Navigator.pushNamed(context, 'profile'),
                           // Navigator.pushNamed(context, 'selection'),
                         ),
-                        title: Text(
-                          'Perfil',
-                          style: TextStyle(
-                              color: Color(0xffFFBA2E),
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        label: 'Perfil',
                       ),
                       BottomNavigationBarItem(
-                          icon: IconButton(
-                            icon: Icon(
-                              CupertinoIcons.book_solid,
-                              size: 30,
-                              color: Color(0xffFFBA2E),
-                            ),
-                            onPressed: () => Navigator.pushNamed(
-                              context,
-                              'collection',
-                            ),
+                        icon: IconButton(
+                          icon: Icon(
+                            CupertinoIcons.book_solid,
+                            size: 30,
+                            color: Color(0xffFFBA2E),
                           ),
-                          title: Text(
-                            'Biblioteca',
-                            style: TextStyle(
-                                color: Color(0xffFFBA2E),
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold),
-                          )),
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            'collection',
+                          ),
+                        ),
+                        label: 'Biblioteca',
+                      ),
                     ],
                   ),
                 ),
