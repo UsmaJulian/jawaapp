@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jawaaplicacion/src/pages/maps_page.dart';
 import 'package:jawaaplicacion/src/widgets/custom_appbar_simple_widget.dart';

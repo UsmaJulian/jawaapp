@@ -35,7 +35,7 @@ class PreferencesPage extends StatelessWidget {
   }
 
   List<Widget> getListOfActionButtons(BuildContext context) {
-    var actionItems = List<Widget>();
+    var actionItems = <Widget>[];
 
     actionItems.addAll([
       // ButtonTheme(

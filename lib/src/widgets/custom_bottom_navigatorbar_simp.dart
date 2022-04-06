@@ -44,6 +44,10 @@ class _CustomBottomNavigatorBarCompState
                     type: BottomNavigationBarType.fixed,
                     backgroundColor: Colors.white,
                     elevation: 0,
+                    selectedLabelStyle: TextStyle(
+                        color: Color(0xffFFBA2E),
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.bold),
                     items: [
                       BottomNavigationBarItem(
                         icon: IconButton(
