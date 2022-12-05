@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+// import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jawaaplicacion/src/utils/field_selection.dart';
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget%20copy.dart';
 
@@ -11,7 +12,7 @@ class CollectionPage extends StatefulWidget {
 }
 
 class _CollectionPageState extends State<CollectionPage> {
-  final fieldP = new FieldSelection();
+  final fieldP = FieldSelection();
   String field = "ubicacion";
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _CollectionPageState extends State<CollectionPage> {
   }
 
   _gridcollections(BuildContext context, String field) {
-    return Container(
+    return SizedBox(
         width: MediaQuery.of(context).size.width * 0.95,
         height: MediaQuery.of(context).size.height * .87,
         child: StreamBuilder(
@@ -43,20 +44,20 @@ class _CollectionPageState extends State<CollectionPage> {
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.data == null) {
-                return CupertinoActivityIndicator();
+                return const CupertinoActivityIndicator();
               } else {
                 return Container(
                     child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
-                  itemCount: snapshot.data.docs.length,
-                  padding: EdgeInsets.all(10.0),
+                  itemCount: snapshot.data!.docs.length,
+                  padding: const EdgeInsets.all(10.0),
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       child: _SwiperCollection(
-                          data: snapshot.data.docs[index].data()),
+                          data: snapshot.data!.docs[index].data()),
                       onTap: () {
-                        final datos = snapshot.data.docs[index].data();
+                        final datos = snapshot.data!.docs[index].data();
                         Navigator.pushNamed(context, 'content',
                             arguments: datos);
                       },
@@ -70,7 +71,7 @@ class _CollectionPageState extends State<CollectionPage> {
 
 class _SwiperCollection extends StatefulWidget {
   final data;
-  const _SwiperCollection({Key key, this.data}) : super(key: key);
+  const _SwiperCollection({Key? key, this.data}) : super(key: key);
 
   @override
   __SwiperCollectionState createState() => __SwiperCollectionState();
@@ -79,7 +80,7 @@ class _SwiperCollection extends StatefulWidget {
 class __SwiperCollectionState extends State<_SwiperCollection> {
   @override
   Widget build(BuildContext context) {
-    List<String> imagenes = this.widget.data['imagenes'].cast<String>();
+    List<String> imagenes = widget.data['imagenes'].cast<String>();
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Column(
@@ -90,16 +91,18 @@ class __SwiperCollectionState extends State<_SwiperCollection> {
             width: MediaQuery.of(context).size.width * 0.6,
             height: MediaQuery.of(context).size.height * 0.15,
             color: Colors.white,
-            child: new Swiper(
+            child: Swiper(
               itemBuilder: (BuildContext context, int index) {
                 return FadeInImage(
-                  placeholder: AssetImage('assets/images/no-image.png'),
-                  image: NetworkImage('${imagenes[index]}'),
+                  placeholder: const AssetImage('assets/images/no-image.png'),
+                  image: NetworkImage((imagenes[index].isNotEmpty)
+                      ? imagenes[index]
+                      : 'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png'),
                   fit: BoxFit.cover,
                 );
               },
               itemCount: imagenes.length,
-              pagination: new SwiperPagination(
+              pagination: const SwiperPagination(
                   margin: EdgeInsets.only(
                     bottom: 12.0,
                   ),
@@ -116,7 +119,7 @@ class __SwiperCollectionState extends State<_SwiperCollection> {
               Container(
                 child: Text(
                   '${widget.data['tecnica']}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xffFFBA2E),
                   ),
                 ),

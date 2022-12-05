@@ -14,9 +14,9 @@ class MapsPage extends StatefulWidget {
 }
 
 class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
-  Completer<GoogleMapController> _controller = Completer();
-  Position _currentPosition;
-  static LatLng _center = LatLng(4.5970, -74.0729);
+  final Completer<GoogleMapController> _controller = Completer();
+  Position? _currentPosition;
+  static const LatLng _center = LatLng(4.5970, -74.0729);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -45,7 +45,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
           request['localizacion'].latitude, request['localizacion'].longitude),
       infoWindow: InfoWindow(
           title: request['ubicacion'],
-          snippet: request['creador/autor'],
+          snippet: request['creador'],
           onTap: () {}),
     );
     setState(() {
@@ -63,7 +63,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
     super.initState();
   }
 
-  MapType _defaultMapType = MapType.normal;
+  final MapType _defaultMapType = MapType.normal;
 
   // void _changeMapType() {
   //   setState(() {
@@ -76,16 +76,17 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
     setState(() {
       _markers.add(Marker(
         markerId: MarkerId(
-            LatLng(_currentPosition.latitude, _currentPosition.longitude)
+            LatLng(_currentPosition!.latitude, _currentPosition!.longitude)
                 .toString()),
-        position: LatLng(_currentPosition.latitude, _currentPosition.longitude),
+        position:
+            LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
         icon: BitmapDescriptor.defaultMarker,
       ));
       Navigator.pushNamed(
         context,
         'add',
         arguments:
-            LatLng(_currentPosition.latitude, _currentPosition.longitude),
+            LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
       );
     });
   }
@@ -100,13 +101,16 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
   }
 
   getCurrentPos() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best
-    );
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
 
-    setState(() {
-      _currentPosition = position;
-    });
+      setState(() {
+        _currentPosition = position;
+      });
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 
   // void placemarkFromAddress() async {
@@ -116,8 +120,45 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
   // }
   @override
   void afterFirstLayout(BuildContext context) {
+    determinePosition();
     getCurrentPos();
     setState(() {});
+  }
+
+  Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
@@ -126,15 +167,15 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
       body: Stack(
         children: <Widget>[
           if (_currentPosition == null)
-            Center(
+            const Center(
               child: CupertinoActivityIndicator(),
             )
           else
             Container(
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 30,
               ),
-              padding: EdgeInsets.only(top: 55, bottom: 60),
+              padding: const EdgeInsets.only(top: 55, bottom: 60),
               child: GoogleMap(
                 markers: Set<Marker>.of(markers.values),
                 onCameraMove: _onCameraMove,
@@ -145,7 +186,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
-                      _currentPosition.latitude, _currentPosition.longitude),
+                      _currentPosition!.latitude, _currentPosition!.longitude),
                   zoom: 18.0,
                 ),
               ),
@@ -177,7 +218,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
             bottom: 50,
             left: 50,
             right: 50,
-            child: Container(
+            child: SizedBox(
               width: 0,
               height: 50,
               child: FloatingActionButton(
@@ -185,7 +226,7 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
                 heroTag: null,
                 onPressed: _onAddMarkerButtonPressed,
                 materialTapTargetSize: MaterialTapTargetSize.padded,
-                backgroundColor: Color(0xffFFBA2E),
+                backgroundColor: const Color(0xffFFBA2E),
                 child: const Icon(CupertinoIcons.add, size: 40.0),
               ),
             ),
@@ -199,43 +240,44 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
   _buildListViewItems() {
     Query query = FirebaseFirestore.instance.collection('ingresos');
     return Container(
-      margin: EdgeInsets.only(bottom: 165),
+      margin: const EdgeInsets.only(bottom: 165),
       alignment: Alignment.bottomCenter,
       child: StreamBuilder(
         stream: query.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           final data = snapshot.data;
-          if (snapshot.hasError) return Text(snapshot.error);
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
           switch (snapshot.connectionState) {
             case ConnectionState.none:
-              return Text('Sin conexion');
+              return const Text('Sin conexion');
             case ConnectionState.waiting:
               return Center(
                 child: Container(
-                  child: CircularProgressIndicator(),
+                  child: const CircularProgressIndicator(),
                 ),
               );
             case ConnectionState.active:
-              return _buildLisTileItems(context, data);
+              return _buildLisTileItems(context, data!);
             case ConnectionState.done:
-              return Text('Listo');
+              return const Text('Listo');
           }
-          return null; // unreachable
         },
       ),
     );
   }
 
   _buildLisTileItems(BuildContext context, QuerySnapshot data) {
-    return Container(
+    return SizedBox(
       height: 100,
       width: double.infinity,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: data.docs.length,
           itemBuilder: (BuildContext context, int index) {
-            final lat = data.docs[index].data()['localizacion'].latitude;
-            final long = data.docs[index].data()['localizacion'].longitude;
+            final lat = data.docs[index]['localizacion'].latitude;
+            final long = data.docs[index]['localizacion'].longitude;
             return Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: GestureDetector(
@@ -255,16 +297,18 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(color: Colors.white),
+                            margin: const EdgeInsets.all(10),
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
                             width: 80,
                             height: 80,
                             child: ClipRRect(
-                              borderRadius: new BorderRadius.circular(24.0),
+                              borderRadius: BorderRadius.circular(24.0),
                               child: Image(
                                 fit: BoxFit.fill,
                                 image: NetworkImage(data.docs[index]
-                                    .data()['imagen destacada']),
+                                        ['imagen destacada'] ??
+                                    "https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png"),
                               ),
                             ),
                           ),
@@ -272,17 +316,18 @@ class MapsPageState extends State<MapsPage> with AfterLayoutMixin<MapsPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.only(right: 20),
-                                child: Text(data.docs[index].data()['tecnica'],
-                                    style: TextStyle(color: Color(0xffFFBA2E)),
+                                padding: const EdgeInsets.only(right: 20),
+                                child: Text(data.docs[index]['tecnica'],
+                                    style: const TextStyle(
+                                        color: Color(0xffFFBA2E)),
                                     textAlign: TextAlign.left),
                               ),
                               Container(
-                                padding: EdgeInsets.only(right: 20),
+                                padding: const EdgeInsets.only(right: 20),
                                 child: Text(
-                                  data.docs[index].data()['creador/autor'],
+                                  data.docs[index]['creador'],
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ),
                             ],

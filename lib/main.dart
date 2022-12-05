@@ -23,11 +23,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   if (USE_FIRESTORE_EMULATOR) {
-    FirebaseFirestore.instance.settings = Settings(
+    FirebaseFirestore.instance.settings = const Settings(
         host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
   }
-  final prefField = new FieldSelection();
-  final sopSel = new SoporteSel();
+  final prefField = FieldSelection();
+  final sopSel = SoporteSel();
   await sopSel.initSopSel();
   await prefField.initFieldPref();
   runApp(MyApp());
@@ -57,16 +57,16 @@ class MyApp extends StatelessWidget {
               'home': (BuildContext context) => HomePage(),
               'collection': (BuildContext context) => CollectionPage(),
               'profile': (BuildContext context) =>
-                  ProfilePage(uid: userSnapshot.data.uid),
+                  ProfilePage(uid: userSnapshot.data!.uid),
               'preferences': (BuildContext context) => PreferencesPage(),
               'add': (BuildContext context) =>
-                  AddPage(uid: userSnapshot.data.uid),
+                  AddPage(uid: userSnapshot.data!.uid),
               'content': (BuildContext context) => ContentPage(),
               'selection': (BuildContext context) => SelectionPage(),
             },
             theme: ThemeData(
-              primaryColor: Color(0xffFFBA2E),
-              iconTheme: IconThemeData(color: Color(0xffFFBA2E)),
+              primaryColor: const Color(0xffFFBA2E),
+              iconTheme: const IconThemeData(color: Color(0xffFFBA2E)),
             ),
           );
         },

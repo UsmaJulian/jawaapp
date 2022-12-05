@@ -22,16 +22,13 @@ class _SelectionPageState extends State<SelectionPage> {
       final imagePicker =
           Provider.of<ImagePickerService>(context, listen: false);
       final file = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (file != null) {
-        // 2. Upload to storage
-        final storage = Provider.of<FirebaseStorageService>(context);
-        final downloadUrl = await storage.uploadAvatar(file: file);
-        // 3. Save url to Firestore
-        final database = Provider.of<FirestoreService>(context);
-        await database.setAvatarReference(AvatarReference(downloadUrl));
-        // 4. (optional) delete local file as no longer needed
-        await file.delete();
-      }
+      final storage = Provider.of<FirebaseStorageService>(context);
+      final downloadUrl = await storage.uploadAvatar(file: file);
+      // 3. Save url to Firestore
+      final database = Provider.of<FirestoreService>(context);
+      await database.setAvatarReference(AvatarReference(downloadUrl));
+      // 4. (optional) delete local file as no longer needed
+      await file.delete();
     } catch (e) {
       print(e);
     }
@@ -49,7 +46,7 @@ class _SelectionPageState extends State<SelectionPage> {
               child: _buildUserInfo(context),
             )),
         Padding(
-          padding: EdgeInsets.only(top: 260),
+          padding: const EdgeInsets.only(top: 260),
           child: _buildStreamItems(),
         ),
         CustomAppBarComp(),
@@ -64,7 +61,7 @@ class _SelectionPageState extends State<SelectionPage> {
       builder: (context, snapshot) {
         final avatarReference = snapshot.data;
         return Avatar(
-          photoUrl: avatarReference?.downloadUrl,
+          photoUrl: avatarReference!.downloadUrl,
           radius: 60,
           borderColor: Colors.black54,
           borderWidth: 2.0,
@@ -79,40 +76,42 @@ class _SelectionPageState extends State<SelectionPage> {
     final size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('ingresos').snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) return Text('Error: ${snapshot.error}');
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return Center(
               child: Container(
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             );
           default:
             return ListView.builder(
-              itemCount: snapshot.data.docs.length,
+              itemCount: snapshot.data!.docs.length,
               itemBuilder: (BuildContext context, int index) {
-                final Map<String, dynamic> data =
+                final Map<String, dynamic>? data =
                     snapshot.data.docs[index].data();
-                final dataID = snapshot.data.docs[index].id;
+                final dataID = snapshot.data!.docs[index].id;
                 return Column(
                   children: <Widget>[
-                    Divider(),
+                    const Divider(),
                     ListTile(
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: FadeInImage(
                           height: size.height * 0.5,
-                          placeholder: AssetImage('assets/images/no-image.png'),
+                          placeholder:
+                              const AssetImage('assets/images/no-image.png'),
                           image: NetworkImage(
-                            data['imagen destacada'],
+                            data!['imagen destacada'] ??
+                                'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png',
                           ),
                           fit: BoxFit.cover,
                         ),
                       ),
                       title: Center(
                         child: Text(
-                          data['creador/autor'],
+                          data['creador'],
                         ),
                       ),
                       subtitle: Center(
@@ -120,7 +119,7 @@ class _SelectionPageState extends State<SelectionPage> {
                           data['ubicacion'],
                         ),
                       ),
-                      trailing: Icon(CupertinoIcons.right_chevron),
+                      trailing: const Icon(CupertinoIcons.right_chevron),
                       onTap: () => Navigator.pushNamed(context, 'content',
                           arguments: data),
                     ),
@@ -153,7 +152,8 @@ class _SelectionPageState extends State<SelectionPage> {
     final id = dataID;
     return Container(
       child: IconButton(
-          icon: Icon(CupertinoIcons.delete), onPressed: () => rejectItem(id)),
+          icon: const Icon(CupertinoIcons.delete),
+          onPressed: () => rejectItem(id)),
     );
   }
 

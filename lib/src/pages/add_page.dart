@@ -12,7 +12,7 @@ import 'package:jawaaplicacion/src/utils/utils.dart' as utils;
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 
 class AddPage extends StatefulWidget {
-  AddPage({this.uid});
+  const AddPage({this.uid});
 
   final uid;
 
@@ -22,39 +22,44 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _textCreadorEditingController = TextEditingController();
-  TextEditingController _textEnlaceEditingController = TextEditingController();
-  // ignore: unused_field
-  TextEditingController _textSoporteEditingController = TextEditingController();
-  // ignore: unused_field
-  TextEditingController _textTematicaEditingController =
+  final TextEditingController _textCreadorEditingController =
+      TextEditingController();
+  final TextEditingController _textEnlaceEditingController =
       TextEditingController();
   // ignore: unused_field
-  TextEditingController _textTecnicaEditingController = TextEditingController();
-  TextEditingController _textTituloEditingController = TextEditingController();
-  TextEditingController _textUbicacionEditingController =
+  final TextEditingController _textSoporteEditingController =
       TextEditingController();
-  File photoP, photo1, photo2, photo3;
-  String urlFoto;
-  String urlFoto1;
-  String urlFoto2;
+  // ignore: unused_field
+  final TextEditingController _textTematicaEditingController =
+      TextEditingController();
+  // ignore: unused_field
+  final TextEditingController _textTecnicaEditingController =
+      TextEditingController();
+  final TextEditingController _textTituloEditingController =
+      TextEditingController();
+  final TextEditingController _textUbicacionEditingController =
+      TextEditingController();
+  File? photoP, photo1, photo2, photo3;
+  String? urlFoto;
+  String? urlFoto1;
+  String? urlFoto2;
 
-  String creador;
-  String enlace;
-  String imagen;
-  List<String> imagenes;
-  GeoPoint localizacion;
-  String soporte;
-  String tecnica;
-  String tematica;
-  String titulo;
-  String ubicacion;
-  final sopSel = new SoporteSel();
+  String? creador;
+  String? enlace;
+  String? imagen;
+  List<String>? imagenes;
+  GeoPoint? localizacion;
+  String? soporte;
+  String? tecnica;
+  String? tematica;
+  String? titulo;
+  String? ubicacion;
+  final sopSel = SoporteSel();
   String valor = '';
-  bool _validate() {
+  bool? _validate() {
     final form = _formKey.currentState;
 
-    if (form.validate()) {
+    if (form!.validate()) {
       form.save();
       return true;
     }
@@ -70,27 +75,27 @@ class _AddPageState extends State<AddPage> {
 
   @override
   Widget build(BuildContext context) {
-    LatLng args = ModalRoute.of(context).settings.arguments;
+    LatLng? args = ModalRoute.of(context)?.settings.arguments as LatLng?;
 
     Geoflutterfire geo = Geoflutterfire();
     GeoFirePoint point =
-        geo.point(latitude: args.latitude, longitude: args.longitude);
+        geo.point(latitude: args!.latitude, longitude: args.longitude);
     print(widget.uid);
     return Scaffold(
       appBar: PreferredSize(
         child: CustomAppBarComp(),
-        preferredSize: Size(double.infinity, 70),
+        preferredSize: const Size(double.infinity, 70),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 40.0,
               width: double.infinity,
             ),
             _buildPhotoHeader(context, photoP),
-            SizedBox(
+            const SizedBox(
               height: 16.0,
             ),
             _buildDataForm(
@@ -104,7 +109,7 @@ class _AddPageState extends State<AddPage> {
               urlFoto1,
               urlFoto2,
             ),
-            SizedBox(
+            const SizedBox(
               height: 80.0,
             )
           ],
@@ -113,7 +118,7 @@ class _AddPageState extends State<AddPage> {
     );
   }
 
-  Widget _buildPhotoHeader(BuildContext context, File photoP) {
+  Widget _buildPhotoHeader(BuildContext context, File? photoP) {
     final size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
@@ -122,10 +127,10 @@ class _AddPageState extends State<AddPage> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.grey[300],
+              color: Colors.grey[300]!,
               blurRadius: 15.0, // has the effect of softening the shadow
               spreadRadius: 10.0, // has the effect of extending the shadow
-              offset: Offset(
+              offset: const Offset(
                 6.0, // horizontal, move right
                 6.0, // vertical, move down
               ),
@@ -145,18 +150,18 @@ class _AddPageState extends State<AddPage> {
   Widget _mostrarImagenP() {
     if (photoP != null) {
       return Image.file(
-        photoP,
+        photoP!,
         fit: BoxFit.cover,
       );
     } else {
-      return Image(
+      return const Image(
         image: AssetImage('assets/images/no-image.png'),
         fit: BoxFit.cover,
       );
     }
   }
 
-  void showAlertDialogP(BuildContext context, File photoP) {
+  void showAlertDialogP(BuildContext context, File? photoP) {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -165,7 +170,7 @@ class _AddPageState extends State<AddPage> {
         "JAWA",
         style: TextStyle(color: Theme.of(context).primaryColor),
       ),
-      content: Text("Toma una fotografía o impórtala de tu galería"),
+      content: const Text("Toma una fotografía o impórtala de tu galería"),
       actions: [
         IconButton(
             icon: Icon(
@@ -207,7 +212,7 @@ class _AddPageState extends State<AddPage> {
   ) async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: origen);
-    if (pickedFile.path == null) {
+    if (pickedFile!.path == null) {
       Navigator.pop(context);
     } else {
       photoP = File(pickedFile.path);
@@ -222,18 +227,18 @@ class _AddPageState extends State<AddPage> {
   Widget _mostrarImagen1() {
     if (photo1 != null) {
       return Image.file(
-        photo1,
+        photo1!,
         fit: BoxFit.cover,
       );
     } else {
-      return Image(
+      return const Image(
         image: AssetImage('assets/images/no-image.png'),
         fit: BoxFit.cover,
       );
     }
   }
 
-  void showAlertDialog1(BuildContext context, File photo1) {
+  void showAlertDialog1(BuildContext context, File? photo1) {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -242,7 +247,7 @@ class _AddPageState extends State<AddPage> {
         "JAWA",
         style: TextStyle(color: Theme.of(context).primaryColor),
       ),
-      content: Text("Toma una fotografía o impórtala de tu galería"),
+      content: const Text("Toma una fotografía o impórtala de tu galería"),
       actions: [
         IconButton(
             icon: Icon(
@@ -284,7 +289,7 @@ class _AddPageState extends State<AddPage> {
   ) async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: origen);
-    photo1 = File(pickedFile.path);
+    photo1 = File(pickedFile!.path);
     if (photo1 != null) {
       Navigator.pop(context);
     }
@@ -295,18 +300,18 @@ class _AddPageState extends State<AddPage> {
   Widget _mostrarImagen2() {
     if (photo2 != null) {
       return Image.file(
-        photo2,
+        photo2!,
         fit: BoxFit.cover,
       );
     } else {
-      return Image(
+      return const Image(
         image: AssetImage('assets/images/no-image.png'),
         fit: BoxFit.cover,
       );
     }
   }
 
-  void showAlertDialog2(BuildContext context, File photo2) {
+  void showAlertDialog2(BuildContext context, File? photo2) {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -315,7 +320,7 @@ class _AddPageState extends State<AddPage> {
         "JAWA",
         style: TextStyle(color: Theme.of(context).primaryColor),
       ),
-      content: Text("Toma una fotografía o impórtala de tu galería"),
+      content: const Text("Toma una fotografía o impórtala de tu galería"),
       actions: [
         IconButton(
             icon: Icon(
@@ -357,7 +362,7 @@ class _AddPageState extends State<AddPage> {
   ) async {
     final picker = ImagePicker();
     final pickedFile = await picker.getImage(source: origen);
-    photo2 = File(pickedFile.path);
+    photo2 = File(pickedFile!.path);
 
     if (photo2 != null) {
       Navigator.pop(context);
@@ -369,7 +374,7 @@ class _AddPageState extends State<AddPage> {
     return Form(
       key: _formKey,
       child: Container(
-        padding: EdgeInsets.all(18.0),
+        padding: const EdgeInsets.all(18.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -379,44 +384,44 @@ class _AddPageState extends State<AddPage> {
               controller: _textTituloEditingController,
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Título:',
                   hintText:
                       'Agrega el título, si no lo conoces ingresa “Desconocido.',
                   hintStyle: TextStyle(fontSize: 12.0)),
-              validator: (value) => value.isEmpty
+              validator: (value) => value!.isEmpty
                   ? 'Por favor ingrese el Título o ingrese como Desconocido'
                   : null,
               onChanged: (value) => titulo = value,
             ),
-            SizedBox(
+            const SizedBox(
               height: 18.0,
             ),
             TextFormField(
               controller: _textCreadorEditingController,
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Creador/Autor:',
                   hintText:
                       'Agrega el nombre, si no lo conoces ingresa “Desconocido.',
                   hintStyle: TextStyle(fontSize: 12.0)),
-              validator: (value) => value.isEmpty
+              validator: (value) => value!.isEmpty
                   ? 'Por favor ingrese el Creador/Autor o ingrese como Desconocido'
                   : null,
               onChanged: (value) =>
                   creador = value[0].toUpperCase() + value.substring(1),
             ),
-            SizedBox(
+            const SizedBox(
               height: 18.0,
             ),
             TextFormField(
               controller: _textEnlaceEditingController,
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.url,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enlace de contacto del creador/autor:',
                   hintText:
@@ -424,27 +429,27 @@ class _AddPageState extends State<AddPage> {
                   hintStyle: TextStyle(fontSize: 12.0)),
               onChanged: (value) => enlace = value,
             ),
-            SizedBox(
+            const SizedBox(
               height: 18.0,
             ),
             dropDownTecnicasFirebase(),
-            SizedBox(
+            const SizedBox(
               height: 18.0,
             ),
             TextFormField(
               controller: _textUbicacionEditingController,
               cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Ubicación:',
                   hintText: '¿Donde te encuentras?'),
               validator: (value) =>
-                  value.isEmpty ? 'Por favor ingrese la ubicación' : null,
+                  value!.isEmpty ? 'Por favor ingrese la ubicación' : null,
               onChanged: (value) =>
                   ubicacion = value[0].toUpperCase() + value.substring(1),
             ),
-            SizedBox(
+            const SizedBox(
               height: 18.0,
             ),
           ],
@@ -454,14 +459,14 @@ class _AddPageState extends State<AddPage> {
   }
 
   Widget _buildPhotosH(
-      BuildContext context, File photo1, File photo2, File photo3) {
+      BuildContext context, File? photo1, File? photo2, File? photo3) {
     return Container(
-      padding: EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           InkWell(
-            child: Container(
+            child: SizedBox(
               width: 120,
               height: 120,
               child: ClipRRect(
@@ -472,7 +477,7 @@ class _AddPageState extends State<AddPage> {
             onTap: () => showAlertDialog1(context, photo1),
           ),
           InkWell(
-            child: Container(
+            child: SizedBox(
               width: 120,
               height: 120,
               child: ClipRRect(
@@ -495,37 +500,35 @@ class _AddPageState extends State<AddPage> {
     urlFoto2,
   ) {
     return Container(
-      padding: EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          RaisedButton(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0),
-            ),
-            color: Theme.of(context).primaryColor,
-            onPressed: () => Navigator.pushNamed(context, 'home'),
-            child: Container(
-              width: 100,
-              child: Center(
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white70,
+          ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, 'home'),
+              child: const SizedBox(
+                width: 100,
+                child: Center(
+                  child: Text(
+                    'Cancelar',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white70,
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          RaisedButton(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0),
-            ),
-            color: Theme.of(context).primaryColor,
+              )),
+          // RaisedButton(
+          //   elevation: 8,
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: new BorderRadius.circular(20.0),
+          //   ),
+          //   color: Theme.of(context).primaryColor,
+
+          //   child:,
+          // ),
+          ElevatedButton(
             onPressed: () async {
               await _subirImagendestacada(context);
               await _subirImagen1(context);
@@ -535,20 +538,30 @@ class _AddPageState extends State<AddPage> {
                 point,
               );
             },
-            child: Container(
-              width: 100,
-              child: Center(
-                child: Text(
-                  'Enviar',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white70,
-                  ),
+            child: const Center(
+              child: Text(
+                'Enviar',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white70,
                 ),
               ),
             ),
-          ),
+          )
+
+          // RaisedButton(
+          //   elevation: 8,
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: new BorderRadius.circular(20.0),
+          //   ),
+          //   color: Theme.of(context).primaryColor,
+
+          //   child: Container(
+          //     width: 100,
+          //     child:
+          //   ),
+          // ),
         ],
       ),
     );
@@ -556,14 +569,15 @@ class _AddPageState extends State<AddPage> {
 
   Future<void> _subirImagendestacada(BuildContext context) async {
     if (photoP != null) {
-      final StorageReference fireStoreRef = FirebaseStorage.instance
+      final Reference fireStoreRef = FirebaseStorage.instance
           .ref()
           .child('$ubicacion')
           .child('$creador')
-          .child("${photoP.path}");
-      final StorageUploadTask task = fireStoreRef.putFile(
-          photoP, StorageMetadata(contentType: 'image/jpeg'));
-      await task.onComplete.then((onValue) {
+          .child(photoP!.path);
+      final UploadTask task = fireStoreRef.putFile(
+        photoP!,
+      );
+      await task.then((onValue) {
         setState(() {
           onValue.ref
               .getDownloadURL()
@@ -575,14 +589,15 @@ class _AddPageState extends State<AddPage> {
 
   Future<void> _subirImagen1(BuildContext context) async {
     if (photo1 != null) {
-      final StorageReference fireStoreRef = FirebaseStorage.instance
+      final Reference fireStoreRef = FirebaseStorage.instance
           .ref()
           .child('$ubicacion')
           .child('$creador')
-          .child('${photo1.path}');
-      final StorageUploadTask task = fireStoreRef.putFile(
-          photo1, StorageMetadata(contentType: 'image/jpeg'));
-      await task.onComplete.then((onValue) {
+          .child(photo1!.path);
+      final UploadTask task = fireStoreRef.putFile(
+        photo1!,
+      );
+      await task.then((onValue) {
         setState(() {
           onValue.ref
               .getDownloadURL()
@@ -596,14 +611,15 @@ class _AddPageState extends State<AddPage> {
     BuildContext context,
   ) async {
     if (photo2 != null) {
-      final StorageReference fireStoreRef = FirebaseStorage.instance
+      final Reference fireStoreRef = FirebaseStorage.instance
           .ref()
           .child('$ubicacion')
           .child('$creador')
-          .child('${photo2.path}');
-      final StorageUploadTask task = fireStoreRef.putFile(
-          photo2, StorageMetadata(contentType: 'image/jpeg'));
-      await task.onComplete.then((onValue) {
+          .child(photo2!.path);
+      final UploadTask task = fireStoreRef.putFile(
+        photo2!,
+      );
+      await task.then((onValue) {
         setState(() {
           onValue.ref
               .getDownloadURL()
@@ -615,10 +631,10 @@ class _AddPageState extends State<AddPage> {
 
   _enviar(BuildContext context, point) async {
     print(creador);
-    if (_validate()) {
+    if (_validate()!) {
       print('url de la foto $urlFoto1');
       await FirebaseFirestore.instance.collection('ingresos').doc().set({
-        'creador/autor': creador,
+        'creador': creador,
         'enlace': enlace,
         'fecha de captura': DateTime.now(),
         'imagen destacada': urlFoto,
@@ -645,16 +661,20 @@ class _AddPageState extends State<AddPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Información Agregada'),
+          title: const Text('Información Agregada'),
           content: const Text(
               'La información suministrada será revisada y posteriormente agregada a nuestra base de datos  '),
           actions: <Widget>[
-            FlatButton(
-              child: Text('Continuar'),
+            TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, 'home');
               },
-            ),
+              child: const Text('Continuar'),
+            )
+            // FlatButton(
+            //   child:
+
+            // ),
           ],
         );
       },
@@ -664,48 +684,47 @@ class _AddPageState extends State<AddPage> {
   dropDownTecnicasFirebase() {
     return StreamBuilder(
         stream: FirebaseFirestore.instance.collection('tecnicas').snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData)
-            Center(
-              child: const CupertinoActivityIndicator(),
+        builder: (context, AsyncSnapshot snapshot) {
+          List<DropdownMenuItem<String>> tecni = [];
+
+          if (!snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.waiting &&
+              snapshot.data == null) {
+            const Center(
+              child: CupertinoActivityIndicator(),
             );
+          }
+          if (snapshot.data != null) {
+            for (int i = 0; i < snapshot.data.docs.length; i++) {
+              tecni.add(DropdownMenuItem(
+                  value: snapshot.data.docs[i]['nombre']?.toString(),
+                  child: SizedBox(
+                    height: 15.0,
+                    //color: primaryColor,
+                    child: Text(
+                      snapshot.data.docs[i]['nombre'].toString(),
+                      style: const TextStyle(color: Color(0xffFFBA2E)),
+                    ),
+                  )));
+            }
+          }
           return Container(
-            padding: EdgeInsets.all(18.0),
+            padding: const EdgeInsets.all(18.0),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5.0)),
             child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: tecnica,
-                isDense: true,
-                isExpanded: true,
-                hint: Text('Técnicas'),
-                onChanged: (newValue) {
-                  setState(() {
-                    tecnica = newValue;
-                  });
-                },
-                items: snapshot.data != null
-                    ? snapshot.data.docs.map((DocumentSnapshot document) {
-                        return new DropdownMenuItem<String>(
-                            value: document.data()['nombre'].toString(),
-                            child: new Container(
-                              height: 15.0,
-                              //color: primaryColor,
-                              child: new Text(
-                                document.data()['nombre'].toString(),
-                                style: TextStyle(color: Color(0xffFFBA2E)),
-                              ),
-                            ));
-                      }).toList()
-                    : DropdownMenuItem(
-                        value: 'null',
-                        child: new Container(
-                          height: 15.0,
-                          child: new Text('null'),
-                        ),
-                      ),
-              ),
+              child: DropdownButton(
+                  value: tecnica,
+                  isDense: true,
+                  isExpanded: true,
+                  hint: const Text('Técnicas'),
+                  onChanged: (newValue) {
+                    setState(() {
+                      tecnica = newValue;
+                    });
+                  },
+                  items: tecni),
             ),
           );
         });

@@ -8,9 +8,8 @@ class CustomAppBarCompCopy extends StatefulWidget {
 }
 
 class _CustomAppBarCompCopyState extends State<CustomAppBarCompCopy> {
-  // ignore: unused_field
-  Color _color1;
-  Color _color2;
+  Color? _color1;
+  Color? _color2;
   final fieldP = new FieldSelection();
   @override
   void initState() {

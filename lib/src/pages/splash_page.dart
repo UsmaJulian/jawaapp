@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jawaaplicacion/src/widgets/auth_widget.dart';
 import 'package:jawaaplicacion/src/widgets/auth_widget_builder.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 
-import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
-import 'package:loading/loading.dart';
+// import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
+// import 'package:loading/loading.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -13,11 +14,11 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  Timer _timer;
+  Timer? _timer;
   @override
   void initState() {
     _timer = Timer(
-      Duration(seconds: 5),
+      const Duration(seconds: 5),
       () => Navigator.push(
         context,
         MaterialPageRoute(
@@ -35,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void dispose() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer?.cancel();
       _timer = null;
     }
     super.dispose();
@@ -52,9 +53,10 @@ class _SplashPageState extends State<SplashPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 logoJawa(),
-                spinLoading(),
+                // spinLoading(),
+                Image.asset(circularProgressIndicator, scale: 10),
                 textoEsperar(),
-                SizedBox(
+                const SizedBox(
                   width: double.infinity,
                 )
               ],
@@ -66,7 +68,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Widget logoJawa() {
-    return Image(
+    return const Image(
       image: AssetImage('assets/images/logo.png'),
       width: 90,
       height: 90,
@@ -75,23 +77,24 @@ class _SplashPageState extends State<SplashPage> {
 
   Widget textoEsperar() {
     return Container(
-        padding: EdgeInsets.only(top: 40.0), child: Text('Por favor espere'));
+        padding: const EdgeInsets.only(top: 40.0),
+        child: const Text('Por favor espere'));
   }
 
-  spinLoading() {
-    return Container(
-      padding: EdgeInsets.only(top: 40.0),
-      child: Loading(
-        indicator: BallSpinFadeLoaderIndicator(),
-        size: 30,
-        color: Colors.black,
-      ),
-    );
-  }
+  // spinLoading() {
+  //   return Container(
+  //     padding: EdgeInsets.only(top: 40.0),
+  //     child: Loading(
+  //       indicator: BallSpinFadeLoaderIndicator(),
+  //       size: 30,
+  //       color: Colors.black,
+  //     ),
+  //   );
+  // }
 
   backGround() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/images/back.png'), fit: BoxFit.cover)),
     );

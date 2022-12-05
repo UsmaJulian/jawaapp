@@ -74,21 +74,26 @@ class _ContactPageState extends State<ContactPage> {
                 textAlign: TextAlign.justify,
               ),
               ButtonTheme(
-                buttonColor: Color(0xffFFBA2E),
-                minWidth: 160,
-                height: 40,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                  buttonColor: Color(0xffFFBA2E),
+                  minWidth: 160,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: _launchURL,
+                    child: Text(
+                      'http://munad.unad.edu.co/jawa-app',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      textAlign: TextAlign.justify,
+                    ),
+                  )
+
+                  //  RaisedButton(
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20.0),
+                  //   ),
+
+                  //   child:
+                  // ),
                   ),
-                  onPressed: _launchURL,
-                  child: Text(
-                    'http://munad.unad.edu.co/jawa-app',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-              ),
             ],
           ),
         ),

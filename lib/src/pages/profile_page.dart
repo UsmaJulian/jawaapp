@@ -13,7 +13,7 @@ import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({this.uid});
+  const ProfilePage({this.uid});
 
   final uid;
 
@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   width: double.infinity,
                   height: 120,
                 ),
@@ -55,15 +55,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserInfo(BuildContext context) {
-    print(FirebaseAuth.instance.currentUser.uid);
+    print(FirebaseAuth.instance.currentUser!.uid);
 
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        return Container(
+      builder: (context, AsyncSnapshot snapshot) {
+        return SizedBox(
           width: 150,
           height: 150,
           child: GestureDetector(
@@ -73,30 +73,39 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: FadeInImage.assetNetwork(
                     fit: BoxFit.cover,
                     placeholder: "assets/images/no-image.png",
-                    image: "${snapshot.data.docs[0].data()['photoURL']}"),
+                    image:
+                        "${(snapshot.data != null) ? snapshot.data.docs[0].data()['photoURL'] : "https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png"}"),
               ),
             ),
             onTap: () async {
-              File _avatarImage;
+              File? _avatarImage;
               final picker = ImagePicker();
               final pickedFileAvatar =
                   await picker.getImage(source: ImageSource.gallery);
               setState(() {
-                _avatarImage = File(pickedFileAvatar.path);
+                _avatarImage = File(pickedFileAvatar!.path);
               });
               if (_avatarImage != null) {
-                var imageAvatar = Uuid().v1();
+                var imageAvatar = const Uuid().v1();
                 var imageAvatarPath =
                     '/user/avatar/${widget.uid}/$imageAvatar.jpg';
-                final StorageReference storageReference =
-                    FirebaseStorage().ref().child(imageAvatarPath);
-                final StorageUploadTask uploadTask =
-                    storageReference.putFile(_avatarImage);
-                final StreamSubscription<StorageTaskEvent> streamSubscription =
-                    uploadTask.events.listen((event) {
-                  print('EVENT ${event.type}');
+                final Reference storageReference =
+                    FirebaseStorage.instance.ref().child(imageAvatarPath);
+                final UploadTask uploadTask =
+                    storageReference.putFile(_avatarImage!);
+                final StreamSubscription streamSubscription =
+                    uploadTask.snapshotEvents.listen((event) {
+                  print('EVENT $event');
                 });
-                await uploadTask.onComplete;
+                await uploadTask.whenComplete(() async {
+                  streamSubscription.cancel();
+                  final String downloadUrl =
+                      await storageReference.getDownloadURL();
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(widget.uid)
+                      .update({'photoURL': downloadUrl});
+                });
                 streamSubscription.cancel();
                 FirebaseFirestore.instance
                     .collection('users')
@@ -120,42 +129,43 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildUserItems(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       height: size.height * 0.7,
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('ingresos')
             // .where('uid', isEqualTo: widget.uid)
             .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
 
             default:
-              return new ListView.builder(
-                itemCount: snapshot.data.docs.length,
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final data = snapshot.data.docs[index].data();
+                  final data = snapshot.data!.docs[index].data();
                   return Column(
                     children: <Widget>[
                       ListTile(
                         leading: Container(
                           height: size.height * 0.5,
                           decoration: BoxDecoration(
-                            color: Color(0xffFFBA2E),
+                            color: const Color(0xffFFBA2E),
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: FadeInImage(
-                              placeholder:
-                                  AssetImage('assets/images/no-image.png'),
+                              placeholder: const AssetImage(
+                                  'assets/images/no-image.png'),
                               image: NetworkImage(
-                                data['imagen destacada'],
+                                data['imagen destacada'] ??
+                                    'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png',
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -163,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         title: Center(
                           child: Text(
-                            data['creador/autor'],
+                            data['creador'] ?? '',
                           ),
                         ),
                         subtitle: Center(
@@ -171,11 +181,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             data['ubicacion'],
                           ),
                         ),
-                        trailing: Icon(CupertinoIcons.right_chevron),
+                        trailing: const Icon(CupertinoIcons.right_chevron),
                         onTap: () => Navigator.pushNamed(context, 'content',
                             arguments: data),
                       ),
-                      Divider(),
+                      const Divider(),
                     ],
                   );
                 },

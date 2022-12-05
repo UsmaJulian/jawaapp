@@ -6,21 +6,25 @@ void showAlert(BuildContext context, String mensaje) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('información incorrecta'),
+          title: const Text('información incorrecta'),
           content: Text(mensaje),
           actions: <Widget>[
-            FlatButton(
-                child: Text('OK'),
-                onPressed: () => Navigator.of(context).pop()),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            )
+            // FlatButton(
+            //     child:
+            //     ),
           ],
         );
       });
 }
 
-// ignore: missing_return
-bool urlIsEmpty(String url) {
+bool urlIsEmpty(String? url) {
   if (url == null) {
     print('vacio');
     return false;
   }
+  return true;
 }

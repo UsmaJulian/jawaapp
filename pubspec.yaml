@@ -3,37 +3,40 @@ name: jawaaplicacion
 description: jawa
 version: 1.0.0+1
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.0
-  loading: ^1.0.2
-  cloud_firestore: ^0.14.1+3
-  firebase_auth: ^0.18.1+2
-  image_picker: ^0.6.7+12
-  firebase_storage: ^4.0.1
-  provider: ^4.3.2+2
-  get_it: ^5.0.1
-  google_maps_flutter: ^1.0.3
-  geolocator: ^6.1.0
-  geoflutterfire: ^2.2.1
-  flutter_swiper: ^1.1.6
-  shared_preferences: ^0.5.12+2
-  firebase_core: ^0.5.0+1
-  uuid: ^2.2.2
-  app_settings: ^4.0.4
-  after_layout: ^1.0.7+2
-  url_launcher: ^5.6.0
+  cupertino_icons: ^1.0.5
+  # loading: ^1.0.2
+  cloud_firestore: ^3.1.10
+  firebase_auth: ^3.3.9
+  image_picker: ^0.8.6
+  firebase_storage: ^10.2.9
+  provider: ^6.0.4
+  get_it: ^7.2.0
+  google_maps_flutter: ^2.2.1
+  geolocator: ^9.0.2
+  geoflutterfire: ^3.0.3
+
+  flutter_swiper_null_safety: ^1.0.2
+  shared_preferences: ^2.0.15
+  firebase_core: ^1.13.1
+  uuid: ^3.0.6
+  app_settings: ^4.1.8
+  after_layout: ^1.2.0
+  url_launcher: ^6.1.6
+  loading_gifs: ^0.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.8.0"
+  flutter_launcher_icons: "^0.10.0"
 flutter_icons:
   android: launcher_icon
   ios: true
   image_path: "assets/icon/iconxhdpi.png"
-   
+
 flutter:
   uses-material-design: true
   assets:

@@ -1,21 +1,21 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SoporteSel {
-  static final SoporteSel _instancia = new SoporteSel._();
+  static final SoporteSel _instancia = SoporteSel._();
   factory SoporteSel() {
     return _instancia;
   }
   SoporteSel._();
-  SharedPreferences _prefs;
+  SharedPreferences? _prefs;
   initSopSel() async {
-    this._prefs = await SharedPreferences.getInstance();
+    _prefs = await SharedPreferences.getInstance();
   }
 
-  get soporte {
-    return _prefs.getString('soporte') ?? '';
+  String get soporte {
+    return _prefs?.getString('soporte') ?? '';
   }
 
   set soporte(String valor) {
-    _prefs.setString('soporte', valor);
+    _prefs?.setString('soporte', valor);
   }
 }

@@ -73,111 +73,141 @@ class PreferencesPage extends StatelessWidget {
       //   ),
       // ),
       ButtonTheme(
-        buttonColor: Color(0xffFFBA2E),
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          buttonColor: Color(0xffFFBA2E),
+          minWidth: 160,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AboutPage()));
+            },
+            child: Text(
+              "Nosotros",
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+
+          // RaisedButton(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20.0),
+          //   ),
+          //   child:
+
+          // ),
           ),
-          child: Text(
-            "Nosotros",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AboutPage()));
-          },
-        ),
-      ),
       ButtonTheme(
-        buttonColor: Color(0xffFFBA2E),
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          buttonColor: Color(0xffFFBA2E),
+          minWidth: 160,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PropositoPage()));
+            },
+            child: Text(
+              "Propósito",
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+
+          //  RaisedButton(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20.0),
+          //   ),
+          //   child:
+
+          // ),
           ),
-          child: Text(
-            "Propósito",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PropositoPage()));
-          },
-        ),
-      ),
       ButtonTheme(
-        buttonColor: Color(0xffFFBA2E),
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          buttonColor: Color(0xffFFBA2E),
+          minWidth: 160,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ContactPage()));
+            },
+            child: Text(
+              "Contacto",
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+
+          //  RaisedButton(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20.0),
+          //   ),
+          //   child:
+
+          // ),
           ),
-          child: Text(
-            "Contacto",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ContactPage()));
-          },
-        ),
-      ),
       ButtonTheme(
-        buttonColor: Color(0xffFFBA2E),
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          buttonColor: Color(0xffFFBA2E),
+          minWidth: 160,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LegalPage()));
+            },
+            child: Text(
+              "Política de datos",
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+
+          //  RaisedButton(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20.0),
+          //   ),
+          //   child:
+
+          // ),
           ),
-          child: Text(
-            "Política de datos",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LegalPage()));
-          },
-        ),
-      ),
       ButtonTheme(
-        buttonColor: Color(0xffFFBA2E),
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          buttonColor: Color(0xffFFBA2E),
+          minWidth: 160,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              AppSettings.openLocationSettings();
+            },
+            child: Text(
+              "Localización",
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+
+          //  RaisedButton(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20.0),
+          //   ),
+          //   child:
+
+          // ),
           ),
-          child: Text(
-            "Localización",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () {
-            AppSettings.openLocationSettings();
-          },
-        ),
-      ),
       ButtonTheme(
-        buttonColor: Color(0xffFFBA2E),
-        minWidth: 160,
-        height: 40,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+          buttonColor: Color(0xffFFBA2E),
+          minWidth: 160,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              AppSettings.openInternalStorageSettings();
+            },
+            child: Text(
+              "Almacenamiento interno",
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+          )
+
+          //  RaisedButton(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20.0),
+          //   ),
+          //   child:
+
+          // ),
           ),
-          child: Text(
-            "Almacenamiento interno",
-            style: TextStyle(color: Colors.white, fontSize: 12),
-          ),
-          onPressed: () {
-            AppSettings.openInternalStorageSettings();
-          },
-        ),
-      ),
     ]);
 
     return actionItems;

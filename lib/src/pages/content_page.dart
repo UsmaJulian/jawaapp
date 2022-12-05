@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+// import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 
 class ContentPage extends StatefulWidget {
@@ -11,7 +12,7 @@ class ContentPage extends StatefulWidget {
 class _ContentPageState extends State<ContentPage> {
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context).settings.arguments;
+    final data = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
         extendBodyBehindAppBar: false,
@@ -31,13 +32,13 @@ class _ContentPageState extends State<ContentPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(
+        const SizedBox(
           height: 70.0,
         ),
         _SwipperImages(data: data),
         _buildCards(data),
         // _buildHorListViewPhotos(data),
-        SizedBox(
+        const SizedBox(
           height: 35.0,
         ),
       ],
@@ -49,18 +50,18 @@ class _ContentPageState extends State<ContentPage> {
     // ignore: unused_local_variable
     DateTime d = t.toDate();
     return Container(
-      margin: EdgeInsets.all(18.0),
+      margin: const EdgeInsets.all(18.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Card(
               elevation: 2,
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Creador/Autor: ',
                   style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
-                subtitle: Text('${data['creador/autor']}'),
+                subtitle: Text('${data['creador']}'),
               )),
 
           // Card(
@@ -72,7 +73,7 @@ class _ContentPageState extends State<ContentPage> {
           Card(
               elevation: 2,
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Técnica artística: ',
                   style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
@@ -81,7 +82,7 @@ class _ContentPageState extends State<ContentPage> {
           Card(
               elevation: 2,
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Ubicación: ',
                   style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
@@ -90,7 +91,7 @@ class _ContentPageState extends State<ContentPage> {
           Card(
               elevation: 2,
               child: ListTile(
-                title: Text(
+                title: const Text(
                   'Enlace de contacto del creador: ',
                   style: TextStyle(color: Color(0xffFFBA2E)),
                 ),
@@ -139,21 +140,23 @@ class _SwipperImages extends StatelessWidget {
   const _SwipperImages({this.data});
   @override
   Widget build(BuildContext context) {
-    List<String> imagenes = this.data['imagenes'].cast<String>();
+    List<String> imagenes = data['imagenes'].cast<String>();
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.6,
       color: Colors.white,
-      child: new Swiper(
+      child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return FadeInImage(
-            placeholder: AssetImage('assets/images/no-image.png'),
-            image: NetworkImage('${imagenes[index]}'),
+            placeholder: const AssetImage('assets/images/no-image.png'),
+            image: NetworkImage((imagenes[index].isNotEmpty)
+                ? imagenes[index]
+                : 'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png'),
             fit: BoxFit.cover,
           );
         },
         itemCount: imagenes.length,
-        pagination: new SwiperPagination(
+        pagination: const SwiperPagination(
             margin: EdgeInsets.only(
               bottom: 12.0,
             ),

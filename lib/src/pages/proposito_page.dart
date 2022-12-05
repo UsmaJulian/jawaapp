@@ -69,7 +69,7 @@ class _PropositoPageState extends State<PropositoPage> {
 
   void _animateSlider() {
     Future.delayed(Duration(seconds: 2)).then((_) {
-      int nextPage = _controller.page.round() + 1;
+      int nextPage = _controller.page!.round() + 1;
 
       if (nextPage == _list.length) {
         nextPage = 0;
