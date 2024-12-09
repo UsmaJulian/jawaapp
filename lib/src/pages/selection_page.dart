@@ -11,6 +11,8 @@ import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 import 'package:provider/provider.dart';
 
 class SelectionPage extends StatefulWidget {
+  const SelectionPage({super.key});
+
   @override
   _SelectionPageState createState() => _SelectionPageState();
 }
@@ -37,21 +39,23 @@ class _SelectionPageState extends State<SelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        Align(
+      body: Stack(
+        children: <Widget>[
+          Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(top: 135.0),
+              padding: const EdgeInsets.only(top: 135),
               child: _buildUserInfo(context),
-            )),
-        Padding(
-          padding: const EdgeInsets.only(top: 260),
-          child: _buildStreamItems(),
-        ),
-        CustomAppBarComp(),
-      ],
-    ));
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 260),
+            child: _buildStreamItems(),
+          ),
+          const CustomAppBarComp(),
+        ],
+      ),
+    );
   }
 
   Widget _buildUserInfo(BuildContext context) {
@@ -64,15 +68,15 @@ class _SelectionPageState extends State<SelectionPage> {
           photoUrl: avatarReference!.downloadUrl,
           radius: 60,
           borderColor: Colors.black54,
-          borderWidth: 2.0,
+          borderWidth: 2,
           onPressed: () => _chooseAvatar(context),
         );
       },
     );
   }
 
-  _buildStreamItems() {
-    Color _color = Theme.of(context).primaryColor;
+  StreamBuilder<dynamic> _buildStreamItems() {
+    final color = Theme.of(context).primaryColor;
     final size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('ingresos').snapshots(),
@@ -87,55 +91,56 @@ class _SelectionPageState extends State<SelectionPage> {
             );
           default:
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: int.parse(snapshot.data!.docs.length.toString()),
               itemBuilder: (BuildContext context, int index) {
-                final Map<String, dynamic>? data =
-                    snapshot.data.docs[index].data();
+                final data =
+                    snapshot.data.docs[index].data() as Map<String, dynamic>;
                 final dataID = snapshot.data!.docs[index].id;
                 return Column(
                   children: <Widget>[
                     const Divider(),
                     ListTile(
                       leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(10),
                         child: FadeInImage(
                           height: size.height * 0.5,
                           placeholder:
                               const AssetImage('assets/images/no-image.png'),
                           image: NetworkImage(
-                            data!['imagen destacada'] ??
-                                'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png',
+                            data['imagen destacada'].toString(),
                           ),
                           fit: BoxFit.cover,
                         ),
                       ),
                       title: Center(
                         child: Text(
-                          data['creador'],
+                          data['creador'].toString(),
                         ),
                       ),
                       subtitle: Center(
                         child: Text(
-                          data['ubicacion'],
+                          data['ubicacion'].toString(),
                         ),
                       ),
                       trailing: const Icon(CupertinoIcons.right_chevron),
-                      onTap: () => Navigator.pushNamed(context, 'content',
-                          arguments: data),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        'content',
+                        arguments: data,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         _buildDeleteIcon(context, dataID),
                         _buildApprovedIcon(
                           context,
                           data,
                           dataID,
-                          _color,
+                          color,
                         ),
                         Text(
-                          data['estado'],
+                          data['estado'].toString(),
                         ),
                       ],
                     ),
@@ -152,8 +157,9 @@ class _SelectionPageState extends State<SelectionPage> {
     final id = dataID;
     return Container(
       child: IconButton(
-          icon: const Icon(CupertinoIcons.delete),
-          onPressed: () => rejectItem(id)),
+        icon: const Icon(CupertinoIcons.delete),
+        onPressed: () => rejectItem(id.toString()),
+      ),
     );
   }
 
@@ -161,7 +167,7 @@ class _SelectionPageState extends State<SelectionPage> {
     BuildContext context,
     Map<String, dynamic> data,
     dataID,
-    Color _color,
+    Color color,
   ) {
     final docs = data;
     final id = dataID;
@@ -170,17 +176,18 @@ class _SelectionPageState extends State<SelectionPage> {
       children: <Widget>[
         Container(
           child: IconButton(
-              icon: Icon(
-                CupertinoIcons.check_mark,
-                color: _color,
-                size: 35,
-              ),
-              onPressed: () {
-                setState(() {
-                  updateStateItem(id);
-                  approvedItem(docs);
-                });
-              }),
+            icon: Icon(
+              CupertinoIcons.check_mark,
+              color: color,
+              size: 35,
+            ),
+            onPressed: () {
+              setState(() {
+                updateStateItem(id.toString());
+                approvedItem(docs);
+              });
+            },
+          ),
         ),
       ],
     );

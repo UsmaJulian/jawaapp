@@ -4,6 +4,7 @@ class Avatar extends StatelessWidget {
   const Avatar({
     required this.photoUrl,
     required this.radius,
+    super.key,
     this.borderColor,
     this.borderWidth,
     this.onPressed,
@@ -25,8 +26,10 @@ class Avatar extends StatelessWidget {
           radius: radius,
           backgroundColor: Colors.black12,
           backgroundImage: photoUrl != null
-              ? NetworkImage(photoUrl ??
-                  'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png')
+              ? NetworkImage(
+                  photoUrl ??
+                      'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png',
+                )
               : null,
           child: photoUrl == null ? Icon(Icons.camera_alt, size: radius) : null,
         ),

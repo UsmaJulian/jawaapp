@@ -5,6 +5,8 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 
 class ContentPage extends StatefulWidget {
+  const ContentPage({super.key});
+
   @override
   _ContentPageState createState() => _ContentPageState();
 }
@@ -15,15 +17,15 @@ class _ContentPageState extends State<ContentPage> {
     final data = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
-        extendBodyBehindAppBar: false,
-        body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              SingleChildScrollView(child: _buildImage(data)),
-              CustomAppBarComp(),
-            ],
-          ),
-        ));
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            SingleChildScrollView(child: _buildImage(data)),
+            const CustomAppBarComp(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildImage(data) {
@@ -33,36 +35,37 @@ class _ContentPageState extends State<ContentPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const SizedBox(
-          height: 70.0,
+          height: 70,
         ),
         _SwipperImages(data: data),
         _buildCards(data),
         // _buildHorListViewPhotos(data),
         const SizedBox(
-          height: 35.0,
+          height: 35,
         ),
       ],
     );
   }
 
   Widget _buildCards(data) {
-    Timestamp t = data['fecha de captura'];
+    final t = data['fecha de captura'] as Timestamp;
     // ignore: unused_local_variable
-    DateTime d = t.toDate();
+    final d = t.toDate();
     return Container(
-      margin: const EdgeInsets.all(18.0),
+      margin: const EdgeInsets.all(18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Card(
-              elevation: 2,
-              child: ListTile(
-                title: const Text(
-                  'Creador/Autor: ',
-                  style: TextStyle(color: Color(0xffFFBA2E)),
-                ),
-                subtitle: Text('${data['creador']}'),
-              )),
+            elevation: 2,
+            child: ListTile(
+              title: const Text(
+                'Creador/Autor: ',
+                style: TextStyle(color: Color(0xffFFBA2E)),
+              ),
+              subtitle: Text('${data['creador']}'),
+            ),
+          ),
 
           // Card(
           //     elevation: 2,
@@ -71,32 +74,35 @@ class _ContentPageState extends State<ContentPage> {
           //       subtitle: Text('${data['tematica']}'),
           //     )),
           Card(
-              elevation: 2,
-              child: ListTile(
-                title: const Text(
-                  'Técnica artística: ',
-                  style: TextStyle(color: Color(0xffFFBA2E)),
-                ),
-                subtitle: Text('${data['tecnica']}'),
-              )),
+            elevation: 2,
+            child: ListTile(
+              title: const Text(
+                'Técnica artística: ',
+                style: TextStyle(color: Color(0xffFFBA2E)),
+              ),
+              subtitle: Text('${data['tecnica']}'),
+            ),
+          ),
           Card(
-              elevation: 2,
-              child: ListTile(
-                title: const Text(
-                  'Ubicación: ',
-                  style: TextStyle(color: Color(0xffFFBA2E)),
-                ),
-                subtitle: Text('${data['ubicacion']}'),
-              )),
+            elevation: 2,
+            child: ListTile(
+              title: const Text(
+                'Ubicación: ',
+                style: TextStyle(color: Color(0xffFFBA2E)),
+              ),
+              subtitle: Text('${data['ubicacion']}'),
+            ),
+          ),
           Card(
-              elevation: 2,
-              child: ListTile(
-                title: const Text(
-                  'Enlace de contacto del creador: ',
-                  style: TextStyle(color: Color(0xffFFBA2E)),
-                ),
-                subtitle: Text('${data['enlace']}'),
-              )),
+            elevation: 2,
+            child: ListTile(
+              title: const Text(
+                'Enlace de contacto del creador: ',
+                style: TextStyle(color: Color(0xffFFBA2E)),
+              ),
+              subtitle: Text('${data['enlace']}'),
+            ),
+          ),
           // Card(
           //     elevation: 2,
           //     child: ListTile(
@@ -135,12 +141,11 @@ class _ContentPageState extends State<ContentPage> {
 }
 
 class _SwipperImages extends StatelessWidget {
-  final data;
-
   const _SwipperImages({this.data});
+  final data;
   @override
   Widget build(BuildContext context) {
-    List<String> imagenes = data['imagenes'].cast<String>();
+    final imagenes = List<String>.from(data['imagenes'] as List<dynamic>);
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.6,
@@ -149,19 +154,25 @@ class _SwipperImages extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return FadeInImage(
             placeholder: const AssetImage('assets/images/no-image.png'),
-            image: NetworkImage((imagenes[index].isNotEmpty)
-                ? imagenes[index]
-                : 'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png'),
+            image: NetworkImage(
+              (imagenes[index].isNotEmpty)
+                  ? imagenes[index]
+                  : 'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png',
+            ),
             fit: BoxFit.cover,
           );
         },
         itemCount: imagenes.length,
         pagination: const SwiperPagination(
-            margin: EdgeInsets.only(
-              bottom: 12.0,
-            ),
-            builder: DotSwiperPaginationBuilder(
-                activeColor: Color(0xffFFBA2E), size: 6.0, activeSize: 6)),
+          margin: EdgeInsets.only(
+            bottom: 12,
+          ),
+          builder: DotSwiperPaginationBuilder(
+            activeColor: Color(0xffFFBA2E),
+            size: 6,
+            activeSize: 6,
+          ),
+        ),
       ),
     );
   }

@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'package:jawaaplicacion/src/pages/add_page.dart';
 import 'package:jawaaplicacion/src/pages/collection_page.dart';
 import 'package:jawaaplicacion/src/pages/content_page.dart';
@@ -12,28 +11,12 @@ import 'package:jawaaplicacion/src/pages/sign_in_page.dart';
 import 'package:jawaaplicacion/src/pages/splash_page.dart';
 import 'package:jawaaplicacion/src/providers/firebase_auth_provider.dart';
 import 'package:jawaaplicacion/src/providers/image_picker_provider.dart';
-import 'package:jawaaplicacion/src/utils/field_selection.dart';
-import 'package:jawaaplicacion/src/utils/soporte_sel.dart';
 import 'package:jawaaplicacion/src/widgets/auth_widget_builder.dart';
 import 'package:provider/provider.dart';
 
-// ignore: non_constant_identifier_names
-bool USE_FIRESTORE_EMULATOR = false;
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  if (USE_FIRESTORE_EMULATOR) {
-    FirebaseFirestore.instance.settings = const Settings(
-        host: 'localhost:8080', sslEnabled: false, persistenceEnabled: false);
-  }
-  final prefField = FieldSelection();
-  final sopSel = SoporteSel();
-  await sopSel.initSopSel();
-  await prefField.initFieldPref();
-  runApp(MyApp());
-}
+class App extends StatelessWidget {
+  const App({super.key});
 
-class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -49,25 +32,40 @@ class MyApp extends StatelessWidget {
         builder: (context, userSnapshot) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primaryColor: const Color(0xffFFBA2E),
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                primary: const Color(0xffFFBA2E),
+                onPrimary: const Color(0xffFFBA2E),
+                secondary: const Color(0xffFFBA2E),
+                onSecondary: const Color(0xffFFBA2E),
+                surface: const Color(0xffFFBA2E),
+                onSurface: const Color(0xffFFBA2E),
+                error: const Color(0xffFFBA2E),
+                onError: const Color(0xffFFBA2E),
+                brightness: Brightness.light,
+              ),
+              iconTheme: const IconThemeData(color: Color(0xffFFBA2E)),
+              appBarTheme: AppBarTheme(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              useMaterial3: false,
+            ),
             title: 'Jawa App',
             initialRoute: 'splash',
             routes: {
-              'splash': (BuildContext context) => SplashPage(),
-              'sign': (BuildContext context) => SignInPage(),
-              'home': (BuildContext context) => HomePage(),
-              'collection': (BuildContext context) => CollectionPage(),
+              'splash': (BuildContext context) => const SplashPage(),
+              'sign': (BuildContext context) => const SignInPage(),
+              'home': (BuildContext context) => const HomePage(),
+              'collection': (BuildContext context) => const CollectionPage(),
               'profile': (BuildContext context) =>
                   ProfilePage(uid: userSnapshot.data!.uid),
-              'preferences': (BuildContext context) => PreferencesPage(),
+              'preferences': (BuildContext context) => const PreferencesPage(),
               'add': (BuildContext context) =>
                   AddPage(uid: userSnapshot.data!.uid),
-              'content': (BuildContext context) => ContentPage(),
-              'selection': (BuildContext context) => SelectionPage(),
+              'content': (BuildContext context) => const ContentPage(),
+              'selection': (BuildContext context) => const SelectionPage(),
             },
-            theme: ThemeData(
-              primaryColor: const Color(0xffFFBA2E),
-              iconTheme: const IconThemeData(color: Color(0xffFFBA2E)),
-            ),
           );
         },
       ),

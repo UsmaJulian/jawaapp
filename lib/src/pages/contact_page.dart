@@ -3,6 +3,8 @@ import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactPage extends StatefulWidget {
+  const ContactPage({super.key});
+
   @override
   _ContactPageState createState() => _ContactPageState();
 }
@@ -11,17 +13,17 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        child: CustomAppBarComp(),
+      appBar: const PreferredSize(
         preferredSize: Size(double.infinity, 70),
+        child: CustomAppBarComp(),
       ),
       body: Container(
-        margin: EdgeInsets.all(30.0),
+        margin: const EdgeInsets.all(30),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
+              const Text(
                 'Investigador principal: ',
                 style: TextStyle(
                   fontSize: 18,
@@ -29,14 +31,14 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
+              const Text(
                 'Ricardo Hernández Forero ',
                 style: TextStyle(
                   fontSize: 18,
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
+              const Text(
                 'Coinvestigadores: ',
                 style: TextStyle(
                   fontSize: 18,
@@ -44,28 +46,28 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
+              const Text(
                 'Tatiana Martínez Santis ',
                 style: TextStyle(
                   fontSize: 18,
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
+              const Text(
                 'Silvia Lozano Prat ',
                 style: TextStyle(
                   fontSize: 18,
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
+              const Text(
                 'Raúl Alejandro Martínez ',
                 style: TextStyle(
                   fontSize: 18,
                 ),
                 textAlign: TextAlign.justify,
               ),
-              Text(
+              const Text(
                 'Página oficial de la aplicación: ',
                 style: TextStyle(
                   fontSize: 18,
@@ -74,26 +76,26 @@ class _ContactPageState extends State<ContactPage> {
                 textAlign: TextAlign.justify,
               ),
               ButtonTheme(
-                  buttonColor: Color(0xffFFBA2E),
-                  minWidth: 160,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: _launchURL,
-                    child: Text(
-                      'http://munad.unad.edu.co/jawa-app',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                      textAlign: TextAlign.justify,
-                    ),
-                  )
-
-                  //  RaisedButton(
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20.0),
-                  //   ),
-
-                  //   child:
-                  // ),
+                buttonColor: const Color(0xffFFBA2E),
+                minWidth: 160,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: _launchURL,
+                  child: const Text(
+                    'http://munad.unad.edu.co/jawa-app',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    textAlign: TextAlign.justify,
                   ),
+                ),
+
+                //  RaisedButton(
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(20.0),
+                //   ),
+
+                //   child:
+                // ),
+              ),
             ],
           ),
         ),

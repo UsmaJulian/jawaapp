@@ -13,7 +13,7 @@ import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({this.uid});
+  const ProfilePage({super.key, this.uid});
 
   final uid;
 
@@ -31,14 +31,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: <Widget>[
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.grey[100],
-        ),
-        SingleChildScrollView(
-          child: Column(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.grey[100],
+          ),
+          SingleChildScrollView(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(
@@ -47,10 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 _buildUserInfo(context),
                 _buildUserItems(context),
-              ]),
-        ),
-        CustomAppBarComp(),
-      ]),
+              ],
+            ),
+          ),
+          const CustomAppBarComp(),
+        ],
+      ),
     );
   }
 
@@ -71,49 +74,47 @@ class _ProfilePageState extends State<ProfilePage> {
               aspectRatio: 1 / 1,
               child: ClipOval(
                 child: FadeInImage.assetNetwork(
-                    fit: BoxFit.cover,
-                    placeholder: "assets/images/no-image.png",
-                    image:
-                        "${(snapshot.data != null) ? snapshot.data.docs[0].data()['photoURL'] : "https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png"}"),
+                  fit: BoxFit.cover,
+                  placeholder: 'assets/images/no-image.png',
+                  image:
+                      "${(snapshot.data != null) ? snapshot.data.docs[0].data()['photoURL'] : "https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png"}",
+                ),
               ),
             ),
             onTap: () async {
-              File? _avatarImage;
+              File? avatarImage;
               final picker = ImagePicker();
               final pickedFileAvatar =
-                  await picker.getImage(source: ImageSource.gallery);
+                  await picker.pickImage(source: ImageSource.gallery);
               setState(() {
-                _avatarImage = File(pickedFileAvatar!.path);
+                avatarImage = File(pickedFileAvatar!.path);
               });
-              if (_avatarImage != null) {
-                var imageAvatar = const Uuid().v1();
-                var imageAvatarPath =
+              if (avatarImage != null) {
+                final imageAvatar = const Uuid().v1();
+                final imageAvatarPath =
                     '/user/avatar/${widget.uid}/$imageAvatar.jpg';
-                final Reference storageReference =
+                final storageReference =
                     FirebaseStorage.instance.ref().child(imageAvatarPath);
-                final UploadTask uploadTask =
-                    storageReference.putFile(_avatarImage!);
+                final uploadTask = storageReference.putFile(avatarImage!);
                 final StreamSubscription streamSubscription =
                     uploadTask.snapshotEvents.listen((event) {
                   print('EVENT $event');
                 });
                 await uploadTask.whenComplete(() async {
-                  streamSubscription.cancel();
-                  final String downloadUrl =
-                      await storageReference.getDownloadURL();
-                  FirebaseFirestore.instance
+                  await streamSubscription.cancel();
+                  final downloadUrl = await storageReference.getDownloadURL();
+                  await FirebaseFirestore.instance
                       .collection('users')
-                      .doc(widget.uid)
+                      .doc(widget.uid.toString())
                       .update({'photoURL': downloadUrl});
                 });
-                streamSubscription.cancel();
-                FirebaseFirestore.instance
+                await streamSubscription.cancel();
+                await FirebaseFirestore.instance
                     .collection('users')
-                    .doc(widget.uid)
+                    .doc(widget.uid.toString())
                     .update(
                   {
-                    "photoURL":
-                        (await storageReference.getDownloadURL()).toString()
+                    'photoURL': await storageReference.getDownloadURL(),
                   },
                 );
               } else {
@@ -146,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             default:
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: int.parse(snapshot.data!.docs.length.toString()),
                 itemBuilder: (BuildContext context, int index) {
                   final data = snapshot.data!.docs[index].data();
                   return Column(
@@ -156,16 +157,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: size.height * 0.5,
                           decoration: BoxDecoration(
                             color: const Color(0xffFFBA2E),
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(10),
                             child: FadeInImage(
                               placeholder: const AssetImage(
-                                  'assets/images/no-image.png'),
+                                'assets/images/no-image.png',
+                              ),
                               image: NetworkImage(
-                                data['imagen destacada'] ??
-                                    'https://res.cloudinary.com/det3hixp6/image/upload/v1670263919/logo_jygjvf.png',
+                                data['imagen destacada'].toString(),
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -173,17 +174,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         title: Center(
                           child: Text(
-                            data['creador'] ?? '',
+                            data['creador'].toString(),
                           ),
                         ),
                         subtitle: Center(
                           child: Text(
-                            data['ubicacion'],
+                            data['ubicacion'].toString(),
                           ),
                         ),
                         trailing: const Icon(CupertinoIcons.right_chevron),
-                        onTap: () => Navigator.pushNamed(context, 'content',
-                            arguments: data),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          'content',
+                          arguments: data,
+                        ),
                       ),
                       const Divider(),
                     ],

@@ -9,6 +9,8 @@ import 'package:loading_gifs/loading_gifs.dart';
 // import 'package:loading/loading.dart';
 
 class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
   @override
   _SplashPageState createState() => _SplashPageState();
 }
@@ -19,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     _timer = Timer(
       const Duration(seconds: 5),
-      () => Navigator.push(
+      () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => AuthWidgetBuilder(
@@ -58,7 +60,7 @@ class _SplashPageState extends State<SplashPage> {
                 textoEsperar(),
                 const SizedBox(
                   width: double.infinity,
-                )
+                ),
               ],
             ),
           ],
@@ -77,8 +79,9 @@ class _SplashPageState extends State<SplashPage> {
 
   Widget textoEsperar() {
     return Container(
-        padding: const EdgeInsets.only(top: 40.0),
-        child: const Text('Por favor espere'));
+      padding: const EdgeInsets.only(top: 40),
+      child: const Text('Por favor espere'),
+    );
   }
 
   // spinLoading() {
@@ -92,11 +95,14 @@ class _SplashPageState extends State<SplashPage> {
   //   );
   // }
 
-  backGround() {
+  Container backGround() {
     return Container(
       decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/back.png'), fit: BoxFit.cover)),
+        image: DecorationImage(
+          image: AssetImage('assets/images/back.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

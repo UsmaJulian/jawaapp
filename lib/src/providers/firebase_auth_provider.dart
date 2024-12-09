@@ -26,7 +26,7 @@ class FirebaseAuthService {
         .doc(authResult.user!.uid)
         .set({
       'photoURL': 'https://via.placeholder.com/150',
-      'uid': authResult.user!.uid
+      'uid': authResult.user!.uid,
     });
     return _userFromFirebase(authResult.user);
   }

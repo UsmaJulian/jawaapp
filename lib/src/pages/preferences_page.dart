@@ -7,27 +7,30 @@ import 'package:jawaaplicacion/src/pages/proposito_page.dart';
 import 'package:jawaaplicacion/src/widgets/custom_appbar_comp_widget.dart';
 
 class PreferencesPage extends StatelessWidget {
+  const PreferencesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var actionItems = getListOfActionButtons(context);
+    final actionItems = getListOfActionButtons(context);
 
     return Scaffold(
-      appBar: PreferredSize(
-        child: CustomAppBarComp(),
+      appBar: const PreferredSize(
         preferredSize: Size(double.infinity, 70),
+        child: CustomAppBarComp(),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 90.0),
+        padding: const EdgeInsets.symmetric(vertical: 90),
         child: GridView.count(
           crossAxisCount: 2,
           childAspectRatio: 2,
           children: List.generate(actionItems.length, (index) {
             return Center(
-                child: ButtonTheme(
-              colorScheme: ColorScheme.dark(),
-              minWidth: 150.0,
-              child: actionItems[index],
-            ));
+              child: ButtonTheme(
+                colorScheme: const ColorScheme.dark(),
+                minWidth: 150,
+                child: actionItems[index],
+              ),
+            );
           }),
         ),
       ),
@@ -35,7 +38,7 @@ class PreferencesPage extends StatelessWidget {
   }
 
   List<Widget> getListOfActionButtons(BuildContext context) {
-    var actionItems = <Widget>[];
+    final actionItems = <Widget>[];
 
     actionItems.addAll([
       // ButtonTheme(
@@ -73,141 +76,151 @@ class PreferencesPage extends StatelessWidget {
       //   ),
       // ),
       ButtonTheme(
-          buttonColor: Color(0xffFFBA2E),
-          minWidth: 160,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutPage()));
-            },
-            child: Text(
-              "Nosotros",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-
-          // RaisedButton(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //   ),
-          //   child:
-
-          // ),
+        buttonColor: const Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AboutPage()),
+            );
+          },
+          child: const Text(
+            'Nosotros',
+            style: TextStyle(color: Colors.white),
           ),
+        ),
+
+        // RaisedButton(
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(20.0),
+        //   ),
+        //   child:
+
+        // ),
+      ),
       ButtonTheme(
-          buttonColor: Color(0xffFFBA2E),
-          minWidth: 160,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PropositoPage()));
-            },
-            child: Text(
-              "Propósito",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-
-          //  RaisedButton(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //   ),
-          //   child:
-
-          // ),
+        buttonColor: const Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const PropositoPage()),
+            );
+          },
+          child: const Text(
+            'Propósito',
+            style: TextStyle(color: Colors.white),
           ),
+        ),
+
+        //  RaisedButton(
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(20.0),
+        //   ),
+        //   child:
+
+        // ),
+      ),
       ButtonTheme(
-          buttonColor: Color(0xffFFBA2E),
-          minWidth: 160,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ContactPage()));
-            },
-            child: Text(
-              "Contacto",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-
-          //  RaisedButton(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //   ),
-          //   child:
-
-          // ),
+        buttonColor: const Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ContactPage()),
+            );
+          },
+          child: const Text(
+            'Contacto',
+            style: TextStyle(color: Colors.white),
           ),
+        ),
+
+        //  RaisedButton(
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(20.0),
+        //   ),
+        //   child:
+
+        // ),
+      ),
       ButtonTheme(
-          buttonColor: Color(0xffFFBA2E),
-          minWidth: 160,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LegalPage()));
-            },
-            child: Text(
-              "Política de datos",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-
-          //  RaisedButton(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //   ),
-          //   child:
-
-          // ),
+        buttonColor: const Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LegalPage()),
+            );
+          },
+          child: const Text(
+            'Política de datos',
+            style: TextStyle(color: Colors.white),
           ),
+        ),
+
+        //  RaisedButton(
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(20.0),
+        //   ),
+        //   child:
+
+        // ),
+      ),
       ButtonTheme(
-          buttonColor: Color(0xffFFBA2E),
-          minWidth: 160,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              AppSettings.openLocationSettings();
-            },
-            child: Text(
-              "Localización",
-              style: TextStyle(color: Colors.white),
-            ),
-          )
-
-          //  RaisedButton(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //   ),
-          //   child:
-
-          // ),
+        buttonColor: const Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: ElevatedButton(
+          onPressed: () {
+            AppSettings.openAppSettings(type: AppSettingsType.location);
+          },
+          child: const Text(
+            'Localización',
+            style: TextStyle(color: Colors.white),
           ),
+        ),
+
+        //  RaisedButton(
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(20.0),
+        //   ),
+        //   child:
+
+        // ),
+      ),
       ButtonTheme(
-          buttonColor: Color(0xffFFBA2E),
-          minWidth: 160,
-          height: 40,
-          child: ElevatedButton(
-            onPressed: () {
-              AppSettings.openInternalStorageSettings();
-            },
-            child: Text(
-              "Almacenamiento interno",
-              style: TextStyle(color: Colors.white, fontSize: 12),
-            ),
-          )
-
-          //  RaisedButton(
-          //   shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(20.0),
-          //   ),
-          //   child:
-
-          // ),
+        buttonColor: const Color(0xffFFBA2E),
+        minWidth: 160,
+        height: 40,
+        child: ElevatedButton(
+          onPressed: () {
+            AppSettings.openAppSettings(
+              type: AppSettingsType.internalStorage,
+            );
+          },
+          child: const Text(
+            'Almacenamiento interno',
+            style: TextStyle(color: Colors.white, fontSize: 12),
           ),
+        ),
+
+        //  RaisedButton(
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(20.0),
+        //   ),
+        //   child:
+
+        // ),
+      ),
     ]);
 
     return actionItems;

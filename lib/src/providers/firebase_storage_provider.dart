@@ -12,9 +12,9 @@ class FirebaseStorageService {
   Future<String> uploadAvatar({
     @required File? file,
   }) async =>
-      await upload(
-        file: file!,
-        path: FirestorePath.avatar(uid!) + '/avatar.png',
+      upload(
+        file: file,
+        path: '${FirestorePath.avatar(uid!)}/avatar.png',
         contentType: 'image/png',
       );
 
